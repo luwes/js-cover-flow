@@ -7,6 +7,8 @@
 		typeof navigator.plugins["Shockwave Flash"] == "object") ||
 		(window.ActiveXObject && (new ActiveXObject("ShockwaveFlash.ShockwaveFlash")) !== false));
 
+	C.Utils.isIE = navigator.userAgent.match(/msie/i) !== null;
+
 	C.Utils.ajax = function(xmldocpath, completecallback, errorcallback) {
 		var xmlhttp;
 		if (window.XMLHttpRequest) {
