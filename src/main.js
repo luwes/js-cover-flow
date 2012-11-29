@@ -8,51 +8,35 @@
 (function(window) {
 
 	var players = {};
-	var C = function(identifier) {
-		var container;
-		if (identifier) {
-			if (identifier.nodeType) {
-				container = identifier;
-			} else if (typeof identifier === "string") {
-				container = document.getElementById(identifier);
+	var C = function(id) {
+		if (!id) {
+			for (var key in players) {
+				id = players[key].id;
 			}
-		} else if (players) {
-			for (var key in players) container = players[key];
 		}
-		if (container) {
-			var foundPlayer = players[container.id];
+		if (id) {
+			var foundPlayer = players[id];
 			if (foundPlayer) {
 				return foundPlayer;
 			} else {
-				return players[container.id] = new C.Api(container);
+				return players[id] = new C.Api(id);
 			}
 		}
 		return null;
 	};
 
-	C.Api = function(container) {
+	C.Api = function(id) {
 
 		var player;
-		var readyFlag = false;
+		var readyFlag;
 
-		this.container = container;
-		this.id = container.id;
+		this.id = id;
+		this.container = null;
 		this.config = null;
-
-		this.events = {
-			ready: new C.Signal(),
-			playlist: new C.Signal(),
-			focus: new C.Signal(),
-			click: new C.Signal()
-		};
-
-		this.remove = function() {
-			delete players[this.id];
-		};
 
 		this.setup = function(options) {
 
-			this.remove();
+			readyFlag = false;
 		
 			var defaultConfig = {
 				mode:					"html5",
@@ -85,9 +69,17 @@
 				y:						0
 			};
 
+			this.events = {
+				ready: new C.Signal(),
+				playlist: new C.Signal(),
+				focus: new C.Signal(),
+				click: new C.Signal()
+			};
+
 			this.config = C.Utils.extend(defaultConfig, options);
 			this.config.id = this.id;
 
+			this.container = document.getElementById(id);
 			this.container.innerHTML = "";
 			C.Utils.addClass(this.container, "coverflow");
 			this.resize(this.config.width, this.config.height);
@@ -105,6 +97,15 @@
 			this.to = player.to;
 
 			return this;
+		};
+
+		this.remove = function() {
+			var replacement = document.createElement('div');
+			replacement.id = this.id;
+			this.container.parentNode.replaceChild(replacement, this.container);
+			this.container = replacement;
+
+			delete players[this.id];
 		};
 
 		this.resize = function(wid, hei) {
