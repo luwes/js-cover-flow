@@ -46,7 +46,13 @@
 			click: new C.Signal()
 		};
 
+		this.remove = function() {
+			delete players[this.id];
+		};
+
 		this.setup = function(options) {
+
+			this.remove();
 		
 			var defaultConfig = {
 				mode:					"html5",

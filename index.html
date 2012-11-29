@@ -9,32 +9,43 @@
 	<div id="container"></div>
 	<script src="coverflow.js"></script>
 	<script>
-		coverflow('container').setup({
-			//mode: "flash",
-			//showduration: true,
-			playlist: "playlist.json",
-			//playlist: "http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=?",
-			//route: {
-			// 	playlist: "items",
-			// 	image: "media.m"
-			//},
-			coverwidth: 180,
-			coverheight: 150,
-			fixedsize: true,
-			textoffset: 50
-		})
-		.on('ready', function() {
+		function reset() {
 
-			this.on('focus', function(index) {
-				document.getElementById('focusindex').innerHTML = index;
-			});
+			var el = document.getElementById('container');
+			document.body.removeChild(el);
+
+			el = document.createElement('div');
+			el.id = "container";
+			document.body.insertBefore(el, document.body.firstChild);
 			
-			this.on('click', function(index, link) {
-				document.getElementById('clickindex').innerHTML = index;
-				console.log(link);
-			});
-		});
+			coverflow('container').setup({
+				//mode: "flash",
+				//showduration: true,
+				playlist: "playlist.json",
+				//playlist: "http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=?",
+				//route: {
+				// 	playlist: "items",
+				// 	image: "media.m"
+				//},
+				coverwidth: 180,
+				coverheight: 150,
+				fixedsize: true,
+				textoffset: 50
+			})
+			.on('ready', function() {
 
+				this.on('focus', function(index) {
+					document.getElementById('focusindex').innerHTML = index;
+				});
+				
+				this.on('click', function(index, link) {
+					document.getElementById('clickindex').innerHTML = index;
+					console.log(link);
+				});
+			});
+		}
+
+		reset();
 	</script>
 
 <div style="width:480px;">
@@ -49,5 +60,8 @@
 		<input id="toval" value="0" size="1"> <a href="javascript:;" onclick="coverflow().to(document.getElementById('toval').value);">To</a>
 	</p>
 </div>
+
+<button onclick="reset();">Reset</button>
+
 </body>
 </html>
