@@ -11,6 +11,9 @@
 				} else {
 					C.Utils.ajax(p, ajaxLoaded);
 				}
+			} else if (typeof p === "object") {
+				api.events.playlist.trigger(p);
+				api.events.playlist.off();
 			}
 		};
 

@@ -32,6 +32,10 @@ package coverflow {
 				var loader:URLLoader = new URLLoader();
 				loader.addEventListener(Event.COMPLETE, loaded);
 				loader.load(new URLRequest(p));
+			} else if (typeof p === "object") {
+
+				main.events.playlist.trigger(p as Array);
+				main.events.playlist.off();
 			}
 		}
 

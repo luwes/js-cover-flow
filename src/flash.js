@@ -2,6 +2,22 @@
 
 	C.flash = function(api) {
 
+		var swf;
+
+		function setup() {
+
+			var html = '<object id="' + api.id + '-coverflow-flash" data="' + api.config.flash + '" width="100%" height="100%" type="application/x-shockwave-flash">' +
+				'<param name="movie" value="' + api.config.flash + '" />' +
+				'<param name="bgcolor" value="#' + api.config.backgroundcolor + '" />' +
+				'<param name="allowscriptaccess" value="always" />' +
+				'<param name="flashvars" value="' + jsonToFlashvars(api.config) + '" />' +
+				'<a href="http://get.adobe.com/flashplayer/">Get Adobe Flash player</a>' +
+			'</object>';
+			api.container.innerHTML = html;
+			
+			swf = document.getElementById(api.id + '-coverflow-flash');
+		}
+
 		function jsonToFlashvars(json) {
 			var flashvars = "";
 			for (var key in json) {
@@ -13,17 +29,6 @@
 			}
 			return flashvars.slice(0, -1);
 		}
-
-		var html = '<object id="coverflow-flash" data="' + api.config.flash + '" width="100%" height="100%" type="application/x-shockwave-flash">' +
-			'<param name="movie" value="' + api.config.flash + '" />' +
-			'<param name="bgcolor" value="#' + api.config.backgroundcolor + '" />' +
-			'<param name="allowscriptaccess" value="always" />' +
-			'<param name="flashvars" value="' + jsonToFlashvars(api.config) + '" />' +
-			'<a href="http://get.adobe.com/flashplayer/">Get Adobe Flash player</a>' +
-		'</object>';
-		api.container.innerHTML = html;
-		var swf = document.getElementById('coverflow-flash');
-
 
 		this.resize = function() {
 		};
@@ -43,6 +48,8 @@
 		this.to = function(index) {
 			swf.apiTo(index);
 		};
+
+		setup();
 	};
 
 })(coverflow);

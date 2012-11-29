@@ -11,23 +11,26 @@
 
 		var rotateInterval;
 
-		var styleElement = document.createElement('style');
-		styleElement.type = "text/css";
-		document.getElementsByTagName('head')[0].appendChild(styleElement);
-		styleElement.appendChild(document.createTextNode(config.textstyle));
+		function setup() {
+			
+			var styleElement = document.createElement('style');
+			styleElement.type = "text/css";
+			document.getElementsByTagName('head')[0].appendChild(styleElement);
+			styleElement.appendChild(document.createTextNode(config.textstyle));
 
-		config.backgroundcolor = config.backgroundcolor.indexOf('#') == -1 ? "#" + config.backgroundcolor : config.backgroundcolor;
-		div.style.backgroundColor = config.backgroundcolor;
-		if (config.gradientcolor !== undefined) {
-			config.gradientcolor = config.gradientcolor.indexOf('#') == -1 ? "#" + config.gradientcolor : config.gradientcolor;
-			div.style.background = '-webkit-gradient(linear, left top, left bottom, from('+config.gradientcolor+'), to('+config.backgroundcolor+'))';
+			config.backgroundcolor = config.backgroundcolor.indexOf('#') == -1 ? "#" + config.backgroundcolor : config.backgroundcolor;
+			div.style.backgroundColor = config.backgroundcolor;
+			if (config.gradientcolor !== undefined) {
+				config.gradientcolor = config.gradientcolor.indexOf('#') == -1 ? "#" + config.gradientcolor : config.gradientcolor;
+				div.style.background = '-webkit-gradient(linear, left top, left bottom, from('+config.gradientcolor+'), to('+config.backgroundcolor+'))';
+			}
+
+			api.trigger('ready');
+			
+			api.events.playlist.on(playlistLoaded);
+			var loader = new C.PlaylistLoader(api);
+			loader.load(api.config.playlist);
 		}
-
-		api.trigger('ready');
-		
-		api.events.playlist.on(playlistLoaded);
-		var loader = new C.PlaylistLoader(api);
-		loader.load(api.config.playlist);
 
 		function playlistLoaded(p) {
 			playlist = p;
@@ -130,6 +133,8 @@
 		this.to = function(index) {
 			coverFlow.to(index);
 		};
+
+		setup();
 	};
 
 })(coverflow);
