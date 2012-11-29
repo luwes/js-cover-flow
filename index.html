@@ -11,17 +11,15 @@
 	<script>
 		function reset() {
 
-			var el = document.getElementById('container');
-			document.body.removeChild(el);
+			// var replacement = document.createElement('div');
+			// replacement.id = "container";
 
-			el = document.createElement('div');
-			el.id = "container";
-			document.body.insertBefore(el, document.body.firstChild);
+			// var el = document.getElementById('container');
+			// el.parentNode.replaceChild(replacement, el);
 			
 			coverflow('container').setup({
 				//mode: "flash",
 				//showduration: true,
-				playlist: "playlist.json",
 				//playlist: "playlist.json",
 				//playlist: "http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=?",
 				//route: {
