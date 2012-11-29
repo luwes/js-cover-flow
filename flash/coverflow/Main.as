@@ -77,7 +77,7 @@ package coverflow {
 
 			setupJSListeners();
 
-			ExternalInterface.call('coverflow('+config.id+').trigger', 'ready', config.id);
+			ExternalInterface.call('coverflow("'+config.id+'").trigger', 'ready', config.id);
 		}
 
 		private function playlistLoaded(p:Array):void {
@@ -144,7 +144,7 @@ package coverflow {
 				}
 			}
 
-			ExternalInterface.call('coverflow('+config.id+').trigger', 'focus', index, playlist[index].link);
+			ExternalInterface.call('coverflow("'+config.id+'").trigger', 'focus', index, playlist[index].link);
 		}
 	
 		private function coverClick(index:int):void {
@@ -156,7 +156,7 @@ package coverflow {
 				}
 			}
 
-			ExternalInterface.call('coverflow('+config.id+').trigger', 'click', index, playlist[index].link);
+			ExternalInterface.call('coverflow("'+config.id+'").trigger', 'click', index, playlist[index].link);
 		}
 
 		private function scrollOnMousewheel(e:MouseEvent):void {
