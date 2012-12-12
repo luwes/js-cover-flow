@@ -152,6 +152,21 @@
 		};
 	};
 
+	if (typeof jQuery !== "undefined") {
+		jQuery.fn.coverflow = function(method) {
+			var player = C(this[0].id);
+			if (player[method]) {
+				return player[method].apply(player, Array.prototype.slice.call(arguments, 1));
+			} else if (typeof method === "object") {
+				return player.setup.apply(player, arguments);
+			} else if (!method) {
+				return player;
+			} else {
+				$.error('Method ' + method + ' does not exist on jQuery.coverflow');
+			}
+		};
+	}
+
 	window.coverflow = C;
 
 })(window);
