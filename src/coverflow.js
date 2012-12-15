@@ -115,13 +115,13 @@
 		};
 		
 		this.focused = function(index) {
-			for (var i=0; i<focusCallbacks.length; i++) {
+			for (var i = 0; i < focusCallbacks.length; i++) {
 				focusCallbacks[i](index);
 			}
 		};
 		
 		this.clicked = function(index) {
-			for (var i=0; i<clickCallbacks.length; i++) {
+			for (var i = 0; i < clickCallbacks.length; i++) {
 				clickCallbacks[i](index);
 			}
 		};
@@ -149,17 +149,21 @@
 		};
 		
 		function clickHandler(e) {
-			var child = this;
-			var i = 0;
-			while ((child = child.previousSibling) !== null) i += 1;
+			
+			var index = current;
+			var limitX = _this.covers[current].width / 2;
+			var mouseX = e.pageX - C.Utils.getOffset(_this.domElement).left;
+			if (Math.abs(mouseX) > limitX) {
+				index = mouseX < 0 ? current - 1 : current + 1;
+			}
 
-			var cover = _this.covers[i];
+			var cover = _this.covers[index];
 			var y = e.offsetY || e.layerY;
-			if (y < cover.halfHeight) {
+			if (y < cover.height) {
 				e.preventDefault();
 
-				if (cover.index != current) _this.to(cover.index);
-				else _this.clicked(cover.index);
+				if (cover.index == current) _this.clicked(cover.index);
+				else _this.to(cover.index);
 			}
 		}
 	
@@ -199,7 +203,7 @@
 		if (cover.domElement == e.target.parentNode) {
 			var pos = this.findPos(cover.domElement);
 			var y = pageY - pos.y;
-			if (y < cover.halfHeight) {
+			if (y < cover.height) {
 				this.clicked(cover.index);
 			}
 		}

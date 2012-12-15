@@ -10,7 +10,6 @@
 		var newHeight;
 		
 		this.index = index;
-		this.halfHeight = 0;
 		
 		this.domElement = document.createElement('div');
 		this.domElement.className = C.Cover.getClassName();
@@ -96,7 +95,8 @@
 				}
 			}
 			
-			_this.halfHeight = newHeight;
+			_this.width = newWidth;
+			_this.height = newHeight;
 			
 			cellStyle.top = -(newHeight * 0.5) + "px";
 			cellStyle.left = -(newWidth * 0.5) + "px";
