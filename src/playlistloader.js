@@ -29,7 +29,9 @@
 					playlist[i] = {
 						image: findJsonValue(json[i], 'image'),
 						title: findJsonValue(json[i], 'title'),
-						description: findJsonValue(json[i], 'description')
+						description: findJsonValue(json[i], 'description'),
+						link: findJsonValue(json[i], 'link'),
+						duration: findJsonValue(json[i], 'duration')
 					};
 				}
 			}
