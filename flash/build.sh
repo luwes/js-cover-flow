@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $(dirname $0)
+
 FLEXPATH=/Developer/SDKs/flex_sdk_4.6
 
 echo "Compiling..."

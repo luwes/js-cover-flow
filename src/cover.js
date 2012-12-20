@@ -15,10 +15,12 @@
 		this.domElement = document.createElement('div');
 		this.domElement.className = C.Cover.getClassName();
 		var cellStyle = this.domElement.style;
-		cellStyle.backgroundColor = config.backgroundcolor;
+		if (config.backgroundopacity === 1) {
+			cellStyle.backgroundColor = config.backgroundcolor;
+		}
 		
 		var bitmap = document.createElement('canvas');
-		_this.domElement.appendChild(bitmap);
+		this.domElement.appendChild(bitmap);
 	
 		var image = new Image();
 		image.onload = onComplete;

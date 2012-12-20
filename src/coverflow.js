@@ -136,7 +136,7 @@
 		
 		this.destroy = function() {
 			div.removeChild(_this.domElement);
-			div.removeEventListener('click', clickHandler, false);
+
 			div.removeEventListener('touchstart', controller, true);
 			window.removeEventListener('keydown', keyboard, false);
 		};

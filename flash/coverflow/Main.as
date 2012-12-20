@@ -52,10 +52,10 @@ package coverflow {
 			stage.frameRate = config.framerate;
 						
 			if (config.backgroundcolor is String) {
-				config.backgroundcolor = config.backgroundcolor.indexOf('0x') != -1 ? uint(config.backgroundcolor) : uint('0x' + config.backgroundcolor);
+				config.backgroundcolor = config.backgroundcolor.indexOf('0x') !== -1 ? uint(config.backgroundcolor) : uint('0x' + config.backgroundcolor);
 			}
 			if (config.gradientcolor != undefined) {
-				config.gradientcolor = config.gradientcolor.indexOf('0x') != -1 ? uint(config.gradientcolor) : uint('0x' + config.gradientcolor);
+				config.gradientcolor = config.gradientcolor.indexOf('0x') !== -1 ? uint(config.gradientcolor) : uint('0x' + config.gradientcolor);
 			}
 			
 			masker = new Sprite();
@@ -138,7 +138,7 @@ package coverflow {
 				textField.htmlText = "<div><h1>" + (d.title == undefined ? "" : d.title) + "</h1><h2>" + (d.description == undefined ? "" : d.description) + "</h2></div>";
 			}
 			
-			for (var i:int=0; i<focusCallbacks.length; i++) {
+			for (var i:int = 0; i < focusCallbacks.length; i++) {
 				if (focusCallbacks[i] is Function) {
 					focusCallbacks[i](index);
 				}
@@ -179,11 +179,11 @@ package coverflow {
 			config.height = hei;
 			
 			this.graphics.clear();
-			this.graphics.beginFill(config.backgroundcolor);
+			this.graphics.beginFill(config.backgroundcolor, config.backgroundopacity);
 			if (config.gradientcolor != undefined) {
 				var m:Matrix = new Matrix();
 				m.createGradientBox(wid, hei, Math.PI / 2);
-				this.graphics.beginGradientFill(GradientType.LINEAR, [config.gradientcolor, config.backgroundcolor], [1, 1], [0, 255], m);
+				this.graphics.beginGradientFill(GradientType.LINEAR, [config.gradientcolor, config.backgroundcolor], [config.backgroundopacity, config.backgroundopacity], [0, 255], m);
 			}
 			this.graphics.drawRect(0, 0, wid, hei);
 			this.graphics.endFill();

@@ -18,11 +18,14 @@
 			document.getElementsByTagName('head')[0].appendChild(styleElement);
 			styleElement.appendChild(document.createTextNode(config.textstyle));
 
-			config.backgroundcolor = config.backgroundcolor.indexOf('#') == -1 ? "#" + config.backgroundcolor : config.backgroundcolor;
+			var rgb = C.Utils.hexToRgb(config.backgroundcolor);
+			config.backgroundcolor = "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + "," + config.backgroundopacity + ")";
 			div.style.backgroundColor = config.backgroundcolor;
+
 			if (config.gradientcolor !== undefined) {
-				config.gradientcolor = config.gradientcolor.indexOf('#') == -1 ? "#" + config.gradientcolor : config.gradientcolor;
-				div.style.background = '-webkit-gradient(linear, left top, left bottom, from('+config.gradientcolor+'), to('+config.backgroundcolor+'))';
+				rgb = C.Utils.hexToRgb(config.gradientcolor);
+				config.gradientcolor = "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + "," + config.backgroundopacity + ")";
+				div.style.background = "-webkit-gradient(linear, left top, left bottom, from(" + config.gradientcolor + "), to(" + config.backgroundcolor + "))";
 			}
 
 			api.trigger('ready');

@@ -44,6 +44,8 @@
 				width:					480,
 				height:					270,
 				backgroundcolor:		"000000",
+				backgroundopacity:		1,
+				wmode:					"window",
 				gradientcolor:			undefined,
 				coverwidth:				150,
 				coverheight:			"auto",

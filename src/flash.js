@@ -9,6 +9,7 @@
 			var html = '<object id="' + api.id + '-coverflow-flash" data="' + api.config.flash + '" width="100%" height="100%" type="application/x-shockwave-flash">' +
 				'<param name="movie" value="' + api.config.flash + '" />' +
 				'<param name="bgcolor" value="#' + api.config.backgroundcolor + '" />' +
+				'<param name="wmode" value="' + api.config.wmode + '" />' +
 				'<param name="allowscriptaccess" value="always" />' +
 				'<param name="flashvars" value="' + jsonToFlashvars(api.config) + '" />' +
 				'<a href="http://get.adobe.com/flashplayer/">Get Adobe Flash player</a>' +
