@@ -89,9 +89,6 @@ package coverflow {
 			coverFlow = new CoverFlow(playlist, config);
 			addChild(coverFlow);
 			
-			coverFlow.onFocus(coverFocus);
-			coverFlow.onClick(coverClick);
-			
 			if (textField && contains(textField)) removeChild(textField);
 			if (config.showtext == true) {
 				var style:StyleSheet = new StyleSheet();
@@ -109,8 +106,10 @@ package coverflow {
 				textField.addEventListener(MouseEvent.MOUSE_UP, disableFocus);
 			}
 
+			coverFlow.onFocus(coverFocus);
+			coverFlow.onClick(coverClick);
+
 			resize(config.width, config.height);
-			coverFlow.to(0);
 
 			if (config.rotatedelay > 0) {
 				rotateInterval = new Timer(config.rotatedelay);

@@ -81,7 +81,7 @@
 			maxCoverHeight = maxCoverHeight < h ? h : maxCoverHeight;
 			completeLength += 1;
 			if (completeLength == coversLength) {
-				_this.to(0);
+				_this.to(config.item);
 				for (var i = 0; i < coversLength; i++) {
 					this.covers[i].setY(maxCoverHeight);
 				}
@@ -115,13 +115,13 @@
 		};
 		
 		this.focused = function(index) {
-			for (var i=0; i<focusCallbacks.length; i++) {
+			for (var i = 0; i < focusCallbacks.length; i++) {
 				focusCallbacks[i](index);
 			}
 		};
 		
 		this.clicked = function(index) {
-			for (var i=0; i<clickCallbacks.length; i++) {
+			for (var i = 0; i < clickCallbacks.length; i++) {
 				clickCallbacks[i](index);
 			}
 		};

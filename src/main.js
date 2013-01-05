@@ -43,6 +43,7 @@
 				flash:					"coverflow.swf",
 				width:					480,
 				height:					270,
+				item:					0,
 				backgroundcolor:		"000000",
 				backgroundopacity:		1,
 				wmode:					"window",
