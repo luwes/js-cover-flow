@@ -7,6 +7,7 @@
 </head>
 <body>
 	<div id="container"></div>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
 	<script src="coverflow.js"></script>
 	<script>
 		function reset() {
@@ -17,8 +18,14 @@
 			var el = document.getElementById('container');
 			el.parentNode.replaceChild(replacement, el);
 			
+			//$('#container').coverflow({
 			coverflow('container').setup({
+				item: 1,
 				//mode: "flash",
+				//backgroundcolor: '009900',
+				//backgroundopacity: 0,
+				//wmode: 'transparent',
+				//gradientcolor: 'ff0000',
 				//showduration: true,
 				//playlist: "playlist.json",
 				//playlist: "http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=?",
