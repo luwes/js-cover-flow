@@ -31,7 +31,8 @@
 			return flashvars.slice(0, -1);
 		}
 
-		this.resize = function() {
+		this.resize = function(wid, hei) {
+			swf.apiResize(wid, hei);
 		};
 
 		this.left = function() {

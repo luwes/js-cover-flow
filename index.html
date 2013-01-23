@@ -20,6 +20,7 @@
 			
 			//$('#container').coverflow({
 			coverflow('container').setup({
+				width: '100%',
 				item: 1,
 				//mode: "flash",
 				//backgroundcolor: '009900',
@@ -72,6 +73,11 @@
 		}
 
 		reset();
+
+		window.onresize = function() {
+			coverflow('container').resize();
+		}
+
 	</script>
 
 <div style="width:480px;">

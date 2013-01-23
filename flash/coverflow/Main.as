@@ -223,6 +223,7 @@ package coverflow {
 		private function setupJSListeners():void {
 			try {
 				// Player API Calls
+				ExternalInterface.addCallback('apiResize', resize);
 				ExternalInterface.addCallback('apiLeft', left);
 				ExternalInterface.addCallback('apiRight', right);
 				ExternalInterface.addCallback('apiPrev', prev);

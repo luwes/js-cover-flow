@@ -36,6 +36,7 @@
 
 		this.setup = function(options) {
 
+			player = null;
 			readyFlag = false;
 		
 			var defaultConfig = {
@@ -113,16 +114,16 @@
 
 		this.resize = function(wid, hei) {
 
-			this.config.width = wid;
-			this.config.height = hei;
-
 			C.Utils.css(this.container, {
 				width: wid,
 				height: hei
 			});
 
+			this.config.width = this.container.clientWidth;
+			this.config.height = this.container.clientHeight;
+
 			if (player) {
-				player.resize(wid, hei);
+				player.resize(this.config.width, this.config.height);
 			}
 		};
 
