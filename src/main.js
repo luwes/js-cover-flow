@@ -77,7 +77,9 @@
 				ready: new C.Signal(),
 				playlist: new C.Signal(),
 				focus: new C.Signal(),
-				click: new C.Signal()
+				click: new C.Signal(),
+				fadeIn: new C.Signal(),
+				fadeOut: new C.Signal()
 			};
 
 			this.config = C.Utils.extend(defaultConfig, options);
@@ -99,6 +101,8 @@
 			this.prev = player.prev;
 			this.next = player.next;
 			this.to = player.to;
+			this.fadeIn = player.fadeIn;
+			this.fadeOut = player.fadeOut;
 
 			return this;
 		};

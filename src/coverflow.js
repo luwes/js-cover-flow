@@ -5,8 +5,8 @@
 
 		this.config = config;
 		
-		this.hideComplete = null;
-		this.showComplete = null;
+		var fadeOutComplete = new C.Signal();
+		var fadeInComplete = new C.Signal();
 		
 		var coversLength = playlist.length;
 		var completeLength = 0;
@@ -44,7 +44,10 @@
 		}
 
 		//cover holds the last cover added
-		if (cover) cover.domElement.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd, true);
+		if (cover) {
+			cover.domElement.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd, false);
+			cover.domElement.firstChild.addEventListener('transitionend', coverTransitionEnd, false);
+		}
 
 		div.addEventListener('touchstart', controller, true);
 		window.addEventListener('keydown', keyboard, false);
@@ -55,22 +58,21 @@
 
 			if (parseInt(cover.domElement.firstChild.style.opacity, 10) === 0) {
 				_this.domElement.style.opacity = 0;
-				if (typeof _this.hideComplete === "function") _this.hideComplete();
+				fadeOutComplete.trigger();
 			} else if (parseInt(cover.domElement.firstChild.style.opacity, 10) === 1) {
-				if (typeof _this.showComplete === "function") _this.showComplete();
+				fadeInComplete.trigger();
 			}
 		}
 		
-		this.hide = function(callback) {
-			_this.hideComplete = callback;
-
+		this.fadeOut = function(callback) {
+			fadeOutComplete.off().on(callback);
 			for (var i = 0; i < this.covers.length; i++) {
 				this.covers[i].domElement.firstChild.style.opacity = 0;
 			}
 		};
 		
-		this.show = function(callback) {
-			_this.showComplete = callback;
+		this.fadeIn = function(callback) {
+			fadeInComplete.off().on(callback);
 			_this.domElement.style.opacity = 1;
 			for (var i = 0; i < this.covers.length; i++) {
 				this.covers[i].domElement.firstChild.style.opacity = 1;

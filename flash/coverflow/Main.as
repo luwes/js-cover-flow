@@ -11,11 +11,13 @@ package coverflow {
 	import flash.utils.*;
 	import flash.text.*;
 	
+	import aze.motion.EazeTween;
 	import net.hires.debug.Stats;
 	
 	public class Main extends Sprite {
 
 
+		private var div:Sprite;
 		public var config:Object = {};
 		public var playlist:Array;
 		private var coverFlow:CoverFlow;
@@ -40,6 +42,7 @@ package coverflow {
 		public function init(e:Event=null):void {
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 
+			div = this;
 			//addChild(new Stats());
 
 			stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -90,7 +93,7 @@ package coverflow {
 			addChild(coverFlow);
 			
 			if (textField && contains(textField)) removeChild(textField);
-			if (config.showtext == true) {
+			if (config.showtext === true) {
 				var style:StyleSheet = new StyleSheet();
 				config.textstyle = config.textstyle.replace(/\.coverflow-text/g, '');
 				config.textstyle = config.textstyle.replace(/font-size:\s*?(\d+?)[a-z]*?;(.*?)line-height:\s*?(\d+?)[a-z]*?[;}]/g, function():String {
@@ -220,6 +223,24 @@ package coverflow {
 			clickCallbacks.push(c);
 		}
 
+		public function fadeIn():void {
+			new EazeTween(div).to(0.7, { alpha:1 }).onComplete(function():void {
+				if (textField) new EazeTween(textField).to(0.7, { alpha:1 });
+				coverFlow.fadeIn(function():void {
+					ExternalInterface.call('coverflow("'+config.id+'").trigger', 'fadeIn');
+				});
+			});
+		}
+
+		public function fadeOut():void {
+			if (textField) new EazeTween(textField).to(0.7, { alpha:0 });
+			coverFlow.fadeOut(function():void {
+				new EazeTween(div).to(0.7, { alpha:0 }).onComplete(function():void {
+					ExternalInterface.call('coverflow("'+config.id+'").trigger', 'fadeOut');
+				});
+			});
+		}
+
 		private function setupJSListeners():void {
 			try {
 				// Player API Calls
@@ -231,6 +252,8 @@ package coverflow {
 				ExternalInterface.addCallback('apiTo', to);				
 				ExternalInterface.addCallback('apiOnFocus', onFocus);
 				ExternalInterface.addCallback('apiOnClick', onClick);
+				ExternalInterface.addCallback('apiFadeIn', fadeIn);
+				ExternalInterface.addCallback('apiFadeOut', fadeOut);
 			} catch(e:Error) {
 				trace("Could not initialize JavaScript API: "  + e.message);
 			}

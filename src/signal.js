@@ -5,6 +5,7 @@
 
 		this.on = function(func) {
 			callbacks.push(func);
+			return this;
 		};
 
 		this.trigger = function() {
@@ -14,6 +15,7 @@
 					callbacks[i].apply(this, args);
 				}
 			}
+			return this;
 		};
 
 		this.off = function(func) {
@@ -27,6 +29,7 @@
 			} else {
 				callbacks = [];
 			}
+			return this;
 		};
 	};
 	
