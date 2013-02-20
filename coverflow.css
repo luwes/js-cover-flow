@@ -41,6 +41,7 @@
 }
 
 .coverflow .coverflow-cell canvas {
+	outline: 1px solid transparent;
 	position: absolute;
 	opacity: 1;
 	-webkit-transition: opacity .7s;
@@ -51,8 +52,8 @@
 }
 
 .coverflow-text {
-	opacity: 1;
 	position: absolute;
+	opacity: 1;
 	-webkit-transition: opacity .7s;
 	-moz-transition: opacity .7s;
 	-ms-transition: opacity .7s;
