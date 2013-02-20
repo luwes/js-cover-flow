@@ -166,6 +166,11 @@
 		}
 	
 		function keyboard(e) {
+			var element = e.target;
+			if (element.tagName == 'INPUT' ||
+				element.tagName == 'SELECT' ||
+				element.tagName == 'TEXTAREA') return;
+
 			if ([37, 39, 38, 40, 32].indexOf(e.keyCode) !== -1) {
 				e.preventDefault();
 				switch (e.keyCode) {
