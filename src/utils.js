@@ -137,6 +137,34 @@
 			b: parseInt(result[3], 16)
 		} : null;
 	};
+
+	C.Utils.on = function(elem, type, func) {
+		if (elem === null || elem === undefined) return;
+		var arr = type.split(' ');
+		for (var i = 0; i < arr.length; i++) {
+			if (elem.addEventListener) {
+				elem.addEventListener(arr[i], func, false);
+			} else if (elem.attachEvent) {
+				elem.attachEvent('on' + arr[i], func);
+			} else {
+				elem['on' + arr[i]] = func;
+			}
+		}
+	};
+
+	C.Utils.off = function(elem, type, func) {
+		if (elem === null || elem === undefined) return;
+		var arr = type.split(' ');
+		for (var i = 0; i < arr.length; i++) {
+			if (elem.removeEventListener) {
+				elem.removeEventListener(arr[i], func, false);
+			} else if (elem.detachEvent) {
+				elem.detachEvent('on' + arr[i], func);
+			} else {
+				elem['on' + arr[i]] = null;
+			}
+		}
+	};
 	
 })(coverflow);
 

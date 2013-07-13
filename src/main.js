@@ -26,12 +26,12 @@
 	};
 
 	C.Api = function(id) {
-
+		var _this = this;
 		var player;
 		var readyFlag;
 
 		this.id = id;
-		this.container = null;
+		this.container = document.getElementById(id);
 		this.config = null;
 
 		this.setup = function(options) {
@@ -88,6 +88,12 @@
 			this.container = document.getElementById(id);
 			this.container.innerHTML = "";
 			C.Utils.addClass(this.container, "coverflow");
+
+			if (String(this.config.width).indexOf('%') !== -1) {
+				C.Utils.off(window, 'resize', resizeHandler);
+				C.Utils.on(window, 'resize', resizeHandler);
+			}
+
 			this.resize(this.config.width, this.config.height);
 
 			if (this.getMode() === "html5") {
@@ -115,6 +121,10 @@
 
 			delete players[this.id];
 		};
+
+		function resizeHandler() {
+			_this.resize();
+		}
 
 		this.resize = function(wid, hei) {
 
