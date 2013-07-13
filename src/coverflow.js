@@ -151,17 +151,19 @@
 		};
 		
 		function clickHandler(e) {
-			var child = this;
-			var i = 0;
-			while ((child = child.previousSibling) !== null) i += 1;
+			if (e.button === 0) {
+				var child = this;
+				var i = 0;
+				while ((child = child.previousSibling) !== null) i += 1;
 
-			var cover = _this.covers[i];
-			var y = e.offsetY || e.layerY;
-			if (y < cover.halfHeight) {
-				e.preventDefault();
+				var cover = _this.covers[i];
+				var y = e.offsetY || e.layerY;
+				if (y < cover.halfHeight) {
+					e.preventDefault();
 
-				if (cover.index != current) _this.to(cover.index);
-				else _this.clicked(cover.index);
+					if (cover.index != current) _this.to(cover.index);
+					else _this.clicked(cover.index);
+				}
 			}
 		}
 	
