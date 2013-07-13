@@ -63,7 +63,11 @@
 				
 				this.on('click', function(index, link) {
 					document.getElementById('clickindex').innerHTML = index;
+					
 					console.log(link);
+					if (link) {
+						window.open(link, '_blank');
+					}
 				});
 			});
 		}
