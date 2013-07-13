@@ -1,30 +1,40 @@
 [
 	{
-		"title": "snow-motion",
-		"description": "what a massive and unbelievable winter we're having!",
-		"image": "http://d3el35u4qe4frz.cloudfront.net/eawtAP1q-720.jpg",
+		"title": "golden pebble road",
+		"description": "",
+		"image": "http://luwes.co/media/coverflow/DSC00743.jpg",
 		"link": "http://www.google.com/",
 		"duration": "183"
 	},
 	{
-		"title": "driving rain",
-		"description": "",
-		"image": "http://d3el35u4qe4frz.cloudfront.net/njZMLMwy-720.jpg",
+		"title": "luminous sky",
+		"description": "another spectacular masterpiece of nature",
+		"image": "http://luwes.co/media/coverflow/DSC00358.jpg",
 		"duration": "782"
 	},
 	{
-		"title": "winter brook",
+		"title": "volcano valley",
 		"description": "",
-		"image": "http://d3el35u4qe4frz.cloudfront.net/Vg7cPUdl-720.jpg"
+		"image": "http://luwes.co/media/coverflow/IMG_0044.jpg"
 	},
 	{
-		"title": "sand beach",
+		"title": "sheep hill path",
 		"description": "",
-		"image": "http://d3el35u4qe4frz.cloudfront.net/oJDUTltj-720.jpg"
+		"image": "http://luwes.co/media/coverflow/DSC00435.jpg"
 	},
 	{
-		"title": "wacking streams",
+		"title": "saw tooth ridge",
 		"description": "",
-		"image": "http://d3el35u4qe4frz.cloudfront.net/QieeAOba-720.jpg"
+		"image": "http://luwes.co/media/coverflow/DSC00736.jpg"
+	},
+	{
+		"title": "winter long",
+		"description": "what a massive and unbelievable winter we're having!",
+		"image": "http://luwes.co/media/coverflow/IMG_0028.jpg"
+	},
+	{
+		"title": "unreachable peak",
+		"description": "",
+		"image": "http://luwes.co/media/coverflow/DSC01313.jpg"
 	}
 ]
