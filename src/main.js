@@ -119,6 +119,9 @@
 			this.container.parentNode.replaceChild(replacement, this.container);
 			this.container = replacement;
 
+			C.Utils.off(window, 'resize', resizeHandler);
+			if (player) player.destroy();
+
 			delete players[this.id];
 		};
 

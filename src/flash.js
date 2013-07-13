@@ -57,6 +57,8 @@
 			api.events.fadeOut.off().on(callback);
 			swf.apiFadeOut();
 		};
+		this.destroy = function() {
+		};
 
 		setup();
 	};

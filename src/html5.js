@@ -171,6 +171,9 @@
 			api.events.fadeOut.off().on(callback);
 			fadeOutInternal();
 		};
+		this.destroy = function() {
+			if (coverFlow) coverFlow.destroy();
+		};
 
 		setup();
 	};
