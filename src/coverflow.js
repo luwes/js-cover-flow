@@ -50,7 +50,7 @@
 		}
 
 		div.addEventListener('touchstart', controller, true);
-		window.addEventListener('keydown', keyboard, false);
+		div.addEventListener('keydown', keyboard, false);
 
 
 		function coverTransitionEnd(e) {
@@ -140,7 +140,7 @@
 			div.removeChild(_this.domElement);
 
 			div.removeEventListener('touchstart', controller, true);
-			window.removeEventListener('keydown', keyboard, false);
+			div.removeEventListener('keydown', keyboard, false);
 		};
 
 		this.resize = function() {

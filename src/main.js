@@ -87,6 +87,7 @@
 
 			this.container = document.getElementById(id);
 			this.container.innerHTML = "";
+			this.container.tabIndex = 0;
 			C.Utils.addClass(this.container, "coverflow");
 
 			if (String(this.config.width).indexOf('%') !== -1) {
