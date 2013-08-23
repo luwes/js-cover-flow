@@ -7,7 +7,7 @@
 		
 		this.currentX = 0;
 		this.currentY = 0;
-		this.transformProp = Modernizr.prefixed('transitionDuration');
+		this.transformProp = C.Modernizr.prefixed('transitionDuration');
 	};
 
 	C.Controller.prototype.handleEvent = function(e) {

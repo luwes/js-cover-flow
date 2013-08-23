@@ -19,7 +19,7 @@
 		this.covers = [];
 		this.transforms = [];
 		this.prevF = -1;
-		this.transformProp = Modernizr.prefixed('transform');
+		this.transformProp = C.Modernizr.prefixed('transform');
 		this.space = config.coveroffset + config.covergap;
 		this._angle = "rotateY(" + (-config.coverangle) + "deg)";
 		this.angle = "rotateY(" + config.coverangle + "deg)";
@@ -29,7 +29,7 @@
 		this.tray = document.createElement('div');
 		this.tray.className = "coverflow-tray";
 		this.domElement.appendChild(this.tray);
-		this.domElement.style[Modernizr.prefixed('perspective')] = config.focallength+"px";
+		this.domElement.style[C.Modernizr.prefixed('perspective')] = config.focallength+"px";
 		
 		var controller = new C.Controller(this, this.tray, this.config);
 
@@ -39,7 +39,7 @@
 			cover = new C.Cover(_this, i, playlist[i].image, playlist[i].duration, config);
 			this.tray.appendChild(cover.domElement);
 			cover.domElement.onmousedown = clickHandler;
-			cover.domElement.style[Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";
+			cover.domElement.style[C.Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";
 			this.covers[i] = cover;
 		}
 

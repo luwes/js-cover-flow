@@ -149,7 +149,7 @@
 			if (C.Utils.hasFlash && this.config.mode === "flash") {
 				return "flash";
 			}
-			if (!C.Utils.isIE && Modernizr.csstransforms3d && Modernizr.csstransitions && Modernizr.canvas) {
+			if (!C.Utils.isIE && C.Modernizr.csstransforms3d && C.Modernizr.csstransitions && C.Modernizr.canvas) {
 				return "html5";
 			}
 			return "flash";
