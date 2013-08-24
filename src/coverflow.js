@@ -23,6 +23,9 @@
 		this.space = config.coveroffset + config.covergap;
 		this._angle = "rotateY(" + (-config.coverangle) + "deg)";
 		this.angle = "rotateY(" + config.coverangle + "deg)";
+
+		this.offsetX = 0;
+		this.offsetY = 0;
 		
 		this.domElement = document.createElement('div');
 		this.domElement.className = "coverflow-wrap";
@@ -144,10 +147,9 @@
 		};
 
 		this.resize = function() {
-			C.Utils.css(this.domElement, {
-				left: config.width * 0.5 + config.x,
-				top: config.height * 0.5 + config.y
-			});
+			this.offsetX = config.width * 0.5 + config.x;
+			this.offsetY = config.height * 0.5 + config.y;
+			this.setTrayStyle((controller.currentX + this.offsetX), this.offsetY);
 		};
 		
 		function clickHandler(e) {
@@ -225,6 +227,10 @@
 			return { x: curleft, y: curtop };
 		}
 	};
+
+	C.CoverFlow.prototype.setTrayStyle = function(x, y) {
+		this.tray.style[this.transformProp] = "translate3d(" + x + "px, " + y + "px, 0)";
+	};
 	
 	C.CoverFlow.prototype.setCoverStyle = function(cover, i, transform) {
 		if (this.transforms[i] != transform) {
@@ -245,7 +251,7 @@
 	};
 	
 	C.CoverFlow.prototype.update = function(currentX) {
-		this.tray.style[this.transformProp] = "translate3d(" + currentX + "px, 0, 0)";
+		this.setTrayStyle((currentX + this.offsetX), this.offsetY);
 
 		var f = this.getFocusedCoverOne(currentX);
 		if (f != this.prevF) {
