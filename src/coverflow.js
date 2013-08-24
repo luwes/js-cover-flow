@@ -208,9 +208,9 @@
 		var i = -Math.round(currentX / this.config.covergap);
 		var cover = this.covers[i];
 		if (cover.domElement == e.target.parentNode) {
-			var pos = this.findPos(cover.domElement);
-			var y = pageY - pos.y;
-			if (y < cover.halfHeight) {
+			var pos = this.findPos(this.tray);
+			var y = pos.y + this.offsetY + cover.halfHeight / 2;
+			if (pageY < y) {
 				this.clicked(cover.index);
 			}
 		}
