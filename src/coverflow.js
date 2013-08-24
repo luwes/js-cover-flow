@@ -23,9 +23,6 @@
 		this.space = config.coveroffset + config.covergap;
 		this._angle = "rotateY(" + (-config.coverangle) + "deg)";
 		this.angle = "rotateY(" + config.coverangle + "deg)";
-
-		this.offsetX = 0;
-		this.offsetY = 0;
 		
 		this.domElement = document.createElement('div');
 		this.domElement.className = "coverflow-wrap";
@@ -208,23 +205,9 @@
 		var i = -Math.round(currentX / this.config.covergap);
 		var cover = this.covers[i];
 		if (cover.domElement == e.target.parentNode) {
-			var pos = this.findPos(cover.domElement);
-			var y = pageY - pos.y;
-			if (y < cover.halfHeight) {
+			if (pageY < this.offsetY + cover.halfHeight / 2) {
 				this.clicked(cover.index);
 			}
-		}
-	};
-	
-	C.CoverFlow.prototype.findPos = function(obj) {
-		var curleft = 0;
-		var curtop = 0;
-		if (obj.offsetParent) {
-			do {
-				curleft += obj.offsetLeft;
-				curtop += obj.offsetTop;
-			} while ((obj = obj.offsetParent) !== null);
-			return { x: curleft, y: curtop };
 		}
 	};
 
