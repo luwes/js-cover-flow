@@ -69,6 +69,7 @@
 				rotatedelay:			0,
 				focallength:			250,
 				framerate:				60,
+				mousewheel:				true,
 				x:						0,
 				y:						0
 			};

@@ -66,8 +66,10 @@
 			div.addEventListener('webkitTransitionEnd', divTransitionEnd, false);
 			div.addEventListener('transitionend', divTransitionEnd, false);
 
-			div.addEventListener('mousewheel', scrollOnMousewheel);
-			div.addEventListener('DOMMouseScroll', scrollOnMousewheel);
+			if (config.mousewheel) {
+				div.addEventListener('mousewheel', scrollOnMousewheel);
+				div.addEventListener('DOMMouseScroll', scrollOnMousewheel);
+			}
 		}
 
 		function scrollOnMousewheel(e) {

@@ -70,10 +70,12 @@ package coverflow {
 
 			resize(config.width, config.height);
 
-			this.parent.addEventListener(MouseEvent.ROLL_OVER, MouseWheel.capture);
-			this.parent.addEventListener(MouseEvent.ROLL_OUT, MouseWheel.release);
-			stage.addEventListener(MouseEvent.MOUSE_WHEEL, scrollOnMousewheel);
-
+			if (config.mousewheel) {
+				this.parent.addEventListener(MouseEvent.ROLL_OVER, MouseWheel.capture);
+				this.parent.addEventListener(MouseEvent.ROLL_OUT, MouseWheel.release);
+				stage.addEventListener(MouseEvent.MOUSE_WHEEL, scrollOnMousewheel);
+			}
+			
 			events.playlist.on(playlistLoaded);
 			var loader:PlaylistLoader = new PlaylistLoader(this);
 			loader.load(config.playlist);
