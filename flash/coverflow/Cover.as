@@ -51,7 +51,13 @@ package coverflow {
 			var loader:Loader = new Loader(); // create loader for the image
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onComplete);
 			if (url) {
-				loader.load(new URLRequest(url), new LoaderContext(true));
+				if (url.match('base64,')) {
+					var str:String = url.split('base64,')[1];
+					var bytes:ByteArray = by.blooddy.crypto.Base64.decode(str);
+					loader.loadBytes(bytes);
+				} else {
+					loader.load(new URLRequest(url), new LoaderContext(true));
+				}
 			}
 
 			bitmap = new Bitmap();
