@@ -8,7 +8,7 @@ package coverflow {
 	import flash.external.ExternalInterface;
 	import flash.net.*;
 
-	import com.adobe.serialization.json.*;
+	import by.blooddy.crypto.serialization.JSON;
 	
 	public class PlaylistLoader  {
 
@@ -40,7 +40,7 @@ package coverflow {
 		}
 
 		private function loaded(e:Event):void {
-			var json:Object = new JSONDecoder(e.target.data as String, true).getValue();
+			var json:Object = by.blooddy.crypto.serialization.JSON.decode(e.target.data as String);
 			var playlist:Array;
 
 			if (config.hasOwnProperty('route')) {
