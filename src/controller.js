@@ -16,8 +16,8 @@
 	
 	C.Controller.prototype.touchstart = function(e) {
 		e.stopImmediatePropagation();
-		this.startX = e.touches[0].pageX - this.currentX;
-		this.startY = e.touches[0].pageY - this.currentY;
+		this.startX = e.touches[0].pageX - this.config.slidespeed * this.currentX;
+		this.startY = e.touches[0].pageY - this.config.slidespeed * this.currentY;
 		this.pageY = e.touches[0].pageY;
 		this.moved = false;
 		window.addEventListener("touchmove", this, true);
@@ -30,10 +30,13 @@
 
 		this.lastX = this.currentX;
 		this.lastY = this.currentY;
-		this.currentX = e.touches[0].pageX - this.startX;
-		this.currentY = e.touches[0].pageY - this.startY;
 
-		if (Math.abs(this.currentX - this.lastX) > Math.abs(this.currentY - this.lastY)) {
+		var touchX = this.startX + (e.touches[0].pageX - this.startX) / this.config.slidespeed;
+		var touchY = this.startY + (e.touches[0].pageY - this.startY) / this.config.slidespeed;
+		this.currentX = touchX - this.startX;
+		this.currentY = touchY - this.startY;
+		
+		if (Math.abs(this.currentX - this.lastX) > Math.abs(this.currentY - this.lastY) || this.config.preventslideback == false) {
 			e.preventDefault();
 			this.moved = true;
 
