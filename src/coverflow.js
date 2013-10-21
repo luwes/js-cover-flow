@@ -25,7 +25,7 @@
 		this.angle = "rotateY(" + config.coverangle + "deg)";
 
 		this.preventslideback = true;
-		this.slideDelay = 1;
+		this.slidespeed = 1;
 
 		this.offsetX = 0;
 		this.offsetY = 0;
