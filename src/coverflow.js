@@ -11,9 +11,7 @@
 		var coversLength = playlist.length;
 		var completeLength = 0;
 		var maxCoverHeight = 0;
-		var oldPageX;
-		var offset;
-		var current;
+		var current = 0;
 		
 		var focusCallbacks = [];
 		var clickCallbacks = [];
@@ -42,88 +40,21 @@
 		for (var i = 0; i < coversLength; i++) {
 			
 			cover = new C.Cover(_this, i, playlist[i].image, playlist[i].duration, config);
-			cover.el.style[C.Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";
 			this.tray.appendChild(cover.el);
-
 			cover.el.addEventListener('mousedown', clickHandler);
+			cover.el.style[C.Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";
 			this.covers[i] = cover;
 		}
 
 		//cover holds the last cover added
 		if (cover) {
-			cover.el.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd);
-			cover.el.firstChild.addEventListener('transitionend', coverTransitionEnd);
+			cover.el.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd, false);
+			cover.el.firstChild.addEventListener('transitionend', coverTransitionEnd, false);
 		}
 
-		function init() {
-			div.addEventListener('touchstart', controller, true);
-			div.addEventListener('keydown', keyboard);
-			div.addEventListener('mousemove', mousemove);
-		}
+		div.addEventListener('touchstart', controller, true);
+		div.addEventListener('keydown', keyboard, false);
 
-		function mousemove(e) {
-			if (e.target.tagName == 'CANVAS' && oldPageX != e.pageX) {
-				//Chrome Windows fires mousemove's without moving the mouse
-				var cell = e.target.parentNode;
-				var i = [].indexOf.call(cell.parentNode.children, cell);
-				offset = i - current;
-				//if the mouse position is in the bounding box of center
-				//cover offset should be 0
-				var x = e.pageX - C.Utils.getOffset(div).left;
-				var cover = _this.covers[current];
-				var min = _this.offsetX - cover.el.offsetWidth / 2;
-				var max = _this.offsetX + cover.el.offsetWidth / 2;
-				if (x > min && x < max) {
-					offset = 0;
-				}
-			}
-			oldPageX = e.pageX;
-		}
-
-		function clickHandler(e) {
-			if (e.button === 0) {
-				if (offset === undefined) mousemove(e);
-				var index = current + offset;
-				if (index > -1 && index < coversLength) {
-					var cover = _this.covers[index];
-					var y = e.offsetY || e.layerY;
-					if (y < cover.halfHeight) {
-						e.stopImmediatePropagation();
-						e.preventDefault();
-						if (cover.index != current) _this.to(cover.index);
-						else _this.clicked(cover.index);
-					}
-				}
-			}
-		}
-
-		function keyboard(e) {
-			var element = e.target;
-			if (element.tagName == 'INPUT' ||
-				element.tagName == 'SELECT' ||
-				element.tagName == 'TEXTAREA') return;
-
-			if ([37, 39, 38, 40, 32].indexOf(e.keyCode) !== -1) {
-				e.preventDefault();
-				switch (e.keyCode) {
-				case 37:
-					_this.left();
-					break;
-				case 39:
-					_this.right();
-					break;
-				case 38:
-					_this.to(0);
-					break;
-				case 40:
-					_this.to(coversLength - 1);
-					break;
-				case 32:
-					_this.clicked(current);
-					break;
-				}
-			}
-		}
 
 		function coverTransitionEnd(e) {
 			e.stopPropagation();
@@ -159,7 +90,6 @@
 				for (var i = 0; i < coversLength; i++) {
 					this.covers[i].setY(maxCoverHeight);
 				}
-				init();
 			}
 		};
 	
@@ -182,6 +112,7 @@
 		};
 		
 		this.to = function(index) {
+
 			var match;
 			if (typeof index === "string" && (match = /^([+-])=(\d)/.exec(index))) {
 				index = (match[1] + 1) * match[2] + current;
@@ -226,6 +157,51 @@
 			this.offsetY = config.height * 0.5 + config.y;
 			this.setTrayStyle((controller.currentX + this.offsetX), this.offsetY);
 		};
+		
+		function clickHandler(e) {
+			if (e.button === 0) {
+				var child = this;
+				var i = 0;
+				while ((child = child.previousSibling) !== null) i += 1;
+
+				var cover = _this.covers[i];
+				var y = e.offsetY || e.layerY;
+				if (y < cover.halfHeight) {
+					e.preventDefault();
+
+					if (cover.index != current) _this.to(cover.index);
+					else _this.clicked(cover.index);
+				}
+			}
+		}
+	
+		function keyboard(e) {
+			var element = e.target;
+			if (element.tagName == 'INPUT' ||
+				element.tagName == 'SELECT' ||
+				element.tagName == 'TEXTAREA') return;
+
+			if ([37, 39, 38, 40, 32].indexOf(e.keyCode) !== -1) {
+				e.preventDefault();
+				switch (e.keyCode) {
+				case 37:
+					_this.left();
+					break;
+				case 39:
+					_this.right();
+					break;
+				case 38:
+					_this.to(0);
+					break;
+				case 40:
+					_this.to(coversLength - 1);
+					break;
+				case 32:
+					_this.clicked(current);
+					break;
+				}
+			}
+		}
 	};
 
 	C.CoverFlow.prototype.updateTouchEnd = function(controller) {
