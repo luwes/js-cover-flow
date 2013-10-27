@@ -12,15 +12,15 @@
 		this.index = index;
 		this.halfHeight = 0;
 		
-		this.domElement = document.createElement('div');
-		this.domElement.className = C.Cover.getClassName();
-		var cellStyle = this.domElement.style;
+		this.el = document.createElement('div');
+		this.el.className = C.Cover.getClassName();
+		var cellStyle = this.el.style;
 		if (config.backgroundopacity === 1) {
 			cellStyle.backgroundColor = config.backgroundcolor;
 		}
 		
 		var bitmap = document.createElement('canvas');
-		this.domElement.appendChild(bitmap);
+		this.el.appendChild(bitmap);
 	
 		var image = new Image();
 		image.onload = onComplete;
@@ -141,7 +141,7 @@
 		
 		this.setY = function(maxCoverHeight) {
 			var offsetY = maxCoverHeight * 0.5 - (maxCoverHeight - newHeight);
-			this.domElement.style.top = -offsetY + "px";
+			this.el.style.top = -offsetY + "px";
 		};
 	};
 

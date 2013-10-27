@@ -42,7 +42,7 @@
 			
 			if (coverFlow) coverFlow.destroy();
 			coverFlow = new C.CoverFlow(div, playlist, config);
-			div.appendChild(coverFlow.domElement);
+			div.appendChild(coverFlow.el);
 
 			if (textField) div.removeChild(textField);
 			if (config.showtext === true) {

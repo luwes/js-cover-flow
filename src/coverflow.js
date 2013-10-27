@@ -27,12 +27,12 @@
 		this.offsetX = 0;
 		this.offsetY = 0;
 		
-		this.domElement = document.createElement('div');
-		this.domElement.className = "coverflow-wrap";
+		this.el = document.createElement('div');
+		this.el.className = "coverflow-wrap";
 		this.tray = document.createElement('div');
 		this.tray.className = "coverflow-tray";
-		this.domElement.appendChild(this.tray);
-		this.domElement.style[C.Modernizr.prefixed('perspective')] = config.focallength+"px";
+		this.el.appendChild(this.tray);
+		this.el.style[C.Modernizr.prefixed('perspective')] = config.focallength+"px";
 		
 		var controller = new C.Controller(this, this.tray, this.config);
 
@@ -40,16 +40,16 @@
 		for (var i = 0; i < coversLength; i++) {
 			
 			cover = new C.Cover(_this, i, playlist[i].image, playlist[i].duration, config);
-			this.tray.appendChild(cover.domElement);
-			cover.domElement.onmousedown = clickHandler;
-			cover.domElement.style[C.Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";
+			this.tray.appendChild(cover.el);
+			cover.el.addEventListener('mousedown', clickHandler);
+			cover.el.style[C.Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";
 			this.covers[i] = cover;
 		}
 
 		//cover holds the last cover added
 		if (cover) {
-			cover.domElement.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd, false);
-			cover.domElement.firstChild.addEventListener('transitionend', coverTransitionEnd, false);
+			cover.el.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd, false);
+			cover.el.firstChild.addEventListener('transitionend', coverTransitionEnd, false);
 		}
 
 		div.addEventListener('touchstart', controller, true);
@@ -59,10 +59,10 @@
 		function coverTransitionEnd(e) {
 			e.stopPropagation();
 
-			if (parseInt(cover.domElement.firstChild.style.opacity, 10) === 0) {
-				_this.domElement.style.opacity = 0;
+			if (parseInt(cover.el.firstChild.style.opacity, 10) === 0) {
+				_this.el.style.opacity = 0;
 				fadeOutComplete.trigger();
-			} else if (parseInt(cover.domElement.firstChild.style.opacity, 10) === 1) {
+			} else if (parseInt(cover.el.firstChild.style.opacity, 10) === 1) {
 				fadeInComplete.trigger();
 			}
 		}
@@ -70,15 +70,15 @@
 		this.fadeOut = function(callback) {
 			fadeOutComplete.off().on(callback);
 			for (var i = 0; i < this.covers.length; i++) {
-				this.covers[i].domElement.firstChild.style.opacity = 0;
+				this.covers[i].el.firstChild.style.opacity = 0;
 			}
 		};
 		
 		this.fadeIn = function(callback) {
 			fadeInComplete.off().on(callback);
-			_this.domElement.style.opacity = 1;
+			_this.el.style.opacity = 1;
 			for (var i = 0; i < this.covers.length; i++) {
-				this.covers[i].domElement.firstChild.style.opacity = 1;
+				this.covers[i].el.firstChild.style.opacity = 1;
 			}
 		};
 
@@ -140,7 +140,7 @@
 		};
 		
 		this.destroy = function() {
-			div.removeChild(_this.domElement);
+			div.removeChild(_this.el);
 
 			div.removeEventListener('touchstart', controller, true);
 			div.removeEventListener('keydown', keyboard, false);
@@ -178,11 +178,21 @@
 			if ([37, 39, 38, 40, 32].indexOf(e.keyCode) !== -1) {
 				e.preventDefault();
 				switch (e.keyCode) {
-					case 37: _this.left(); break;
-					case 39: _this.right(); break;
-					case 38: _this.to(0); break;
-					case 40: _this.to(coversLength - 1); break;
-					case 32: _this.clicked(current); break;
+				case 37:
+					_this.left();
+					break;
+				case 39:
+					_this.right();
+					break;
+				case 38:
+					_this.to(0);
+					break;
+				case 40:
+					_this.to(coversLength - 1);
+					break;
+				case 32:
+					_this.clicked(current);
+					break;
 				}
 			}
 		}
@@ -207,7 +217,7 @@
 	C.CoverFlow.prototype.tap = function(e, pageY, currentX) {
 		var i = -Math.round(currentX / this.config.covergap);
 		var cover = this.covers[i];
-		if (cover.domElement == e.target.parentNode) {
+		if (cover.el == e.target.parentNode) {
 			var pos = this.findPos(this.tray);
 			var y = pos.y + this.offsetY + cover.halfHeight / 2;
 			if (pageY < y) {
@@ -234,7 +244,7 @@
 	
 	C.CoverFlow.prototype.setCoverStyle = function(cover, i, transform) {
 		if (this.transforms[i] != transform) {
-			cover.domElement.style[this.transformProp] = transform;
+			cover.el.style[this.transformProp] = transform;
 			this.transforms[i] = transform;
 		}
 	};
