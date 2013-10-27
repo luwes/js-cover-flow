@@ -112,6 +112,12 @@
 		};
 		
 		this.to = function(index) {
+
+			var match;
+			if (typeof index === "string" && (match = /^([+-])=(\d)/.exec(index))) {
+				index = (match[1] + 1) * match[2] + current;
+			}
+
 			if (index > coversLength - 1) index = coversLength - 1;
 			else if (index < 0) index = 0;
 						
