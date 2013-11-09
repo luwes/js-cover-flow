@@ -3,6 +3,7 @@
  *
  * Author: Wesley Luyten
  * Version: 1.0 - (2012/06/20)
+ * Version: 1.2 - (2013/11/09)
  */
 
 var players = {};
