@@ -38,8 +38,14 @@
 
 		var cover = null;
 		for (var i = 0; i < coversLength; i++) {
-			
-			cover = new C.Cover(_this, i, playlist[i].image, playlist[i].duration, config);
+                        var cover = null;
+		        if(playlist[i].image)	
+			    cover = new C.Cover(_this, i, playlist[i].image, playlist[i].duration, config);
+                        else if(playlist[i].text)
+                            cover = new C.HTMLCover(_this, i, playlist[i].text, playlist[i].backgroundImage, playlist[i].duration, config);
+                        else if(playlist[i].domElement)
+                            cover = new C.HTMLCover(_this, i, playlist[i].domElement, playlist[i].backgroundImage, playlist[i].duration, config);
+
 			this.tray.appendChild(cover.el);
 			cover.el.addEventListener('mousedown', clickHandler);
 			cover.el.style[C.Modernizr.prefixed('transitionDuration')] = this.config.tweentime + "s";

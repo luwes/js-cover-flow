@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+        <head profile="http://www.w3.org/2005/10/profile">
+        <link rel="icon" type="image/png" href="favicon.png" />
+	<title>Cover Flow</title>
+	<link rel="stylesheet" href="coverflow.css"/>
+<style type="text/css" media="screen">
+.newsDiv {
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    margin-top: 65%;
+    opacity: 0.6;
+    border-width: 2px;
+    border-color: black;
+    background-size: 100%;
+    font-family: Helvetica;
+    font-size: 12px;
+    color: #FFFFFF;
+    padding: 12px;
+}
+
+img {
+    display: none;
+}
+
+.newsLink {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: larger;
+    color: rgb(0, 184, 255);
+}
+
+</style>
+</head>
+<body>
+       <div style="display:none;background-color: #ffffff;">
+            <a href="news.html">News</a>
+            <a href="flickr.html">Flickr</a>
+        </div>
+	<div id="container">
+        </div>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
+	<script src="coverflow.js"></script>
+	<script src="jsonputil.js"></script>
+	<script src="yqlutil.js"></script>
+	<script>
+		function reset(myplaylist) {
+
+			coverflow('container').remove();
+			
+			coverflow('container').setup({
+				width: '100%',
+                                height: 500,
+				item: 1,
+				//mousewheel: false,
+				//mode: "flash",
+                                backgroundcolor: "ffffff",
+				//backgroundcolor: '009900',
+				//backgroundopacity: 0,
+				//wmode: 'transparent',
+				//gradientcolor: 'ff0000',
+				//showduration: true,
+				//playlist: "playlist.json",
+				//playlist: "http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=?",
+				//route: {
+				// 	playlist: "items",
+				// 	image: "media.m"
+				//},
+                                playlist: myplaylist,
+				coverwidth: 360,
+				coverheight: 300,
+				fixedsize: true,
+				textoffset: 50
+			})
+			.on('ready', function() {
+
+				this.on('focus', function(index) {
+					document.getElementById('focusindex').innerHTML = index;
+				});
+				
+				this.on('click', function(index, link) {
+					document.getElementById('clickindex').innerHTML = index;
+					
+					console.log("link: ", link);
+					if (link) {
+						window.open(link, '_blank');
+					}
+				});
+			});
+		}
+
+                function mycallback(flickrData) {
+                    console.log(JSON.stringify(flickrData));
+                    var myplaylist = [];
+                    for(var i in flickrData.items) {
+                        var item = flickrData.items[i];
+                        myplaylist[myplaylist.length] = {title: item.title, description: item.description, image: item.media.m, duration: 782};
+                    }
+		    reset(myplaylist);
+                }
+
+                //new JSONPUtil("http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=mycallback", mycallback).fetch();
+    // TBD: Retrieve yahoo ads from an ad server, possibly with preference to user's geo location.
+    // For now, just display a random ad among the following:
+    var adUrls = ['http://l1.yimg.com/bt/api/res/1.2/u84Sq1cNLahtF3Hbvp0ltQ--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMjg7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/oldspice-630_222210.jpg',
+        'http://l3.yimg.com/bt/api/res/1.2/i1MviJ1tkzQET0WRWAgYtw--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMTY7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/gm-630_222753.jpg',
+        'http://l3.yimg.com/bt/api/res/1.2/EMJk8lZY4b.NIPt4AxvWaA--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMzE7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/cbs-630_223023.jpg',
+        'http://l1.yimg.com/bt/api/res/1.2/lQ4e0CRoFpwOKN_uqmjnGg--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMjY7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/harrypotter-630_223211.jpg',
+        'http://l.yimg.com/bt/api/res/1.2/J3c10pcwGskXUSHSu27N2w--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMjk7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/terriersfx-630_222453.jpg',
+        'http://www.playmakeronline.com/wp-content/uploads/2012/04/Nike-Fuel-Featured.jpg',
+        'http://ewinsidetv.files.wordpress.com/2010/06/old-spice-man-isaiah--mustafa_510.jpg'
+        ];
+
+                function yqlCallback(data) {
+                   console.log(JSON.stringify(data));
+                   var adText = '<span class="newsDiv">Advertisement</span>';
+                   var myplaylist = [];
+                   var photos = data.query.results.photo;
+                   for(var i in photos) {
+                       var p = photos[i];
+                       if(typeof p != "object")
+                           continue;
+                       var u = 'http://farm' + p.farm + '.staticflickr.com/' + p.server + '/' + p.id + '_' + p.secret + '.jpg';
+                       myplaylist[myplaylist.length] = {title: p.title, image: u, description: p.description, link: p.urls.url, duration: 1000};
+                       if(i%5 == 1) {
+                           var randomNum = Math.floor(Math.random()*(adUrls.length));
+                           myplaylist[myplaylist.length] = {title: "", backgroundImage: adUrls[randomNum], text: adText, description: "", duration: 500};
+                       }
+                   } 
+		   reset(myplaylist);
+                }
+                new YQLQuery("select urls.url.content,title,description,farm,id,secret,server from flickr.photos.info where api_key='d03bc5f2ae5ff21a012ea954baf49098' and photo_id in (select id from flickr.photosets.photos where api_key='d03bc5f2ae5ff21a012ea954baf49098' and photoset_id='72157612249760312')", yqlCallback).fetch();
+
+	</script>
+
+<div style="display:none;width:480px;">
+	<div style="float:right;">Focused: <b id="focusindex">0</b> | Clicked: <b id="clickindex">0</b></div>
+	<p>
+		<a href="javascript:;" onclick="coverflow().left();">Left</a> - <a href="javascript:;" onclick="coverflow().right();">Right</a>
+	</p>
+	<p>
+		<a href="javascript:;" onclick="coverflow().prev();">Previous</a> - <a href="javascript:;" onclick="coverflow().next();">Next</a>
+	</p>
+	<p>
+		<input id="toval" value="0" size="1"> <a href="javascript:;" onclick="coverflow().to(document.getElementById('toval').value);">To</a>
+	</p>
+	<p>
+		<a href="javascript:;" onclick="coverflow().fadeIn(function(){console.log(900);});">Fade in</a> - <a href="javascript:;" onclick="coverflow().fadeOut();">Fade out</a>
+	</p>
+    <button onclick="reset();">Reset</button>
+    <button onclick="coverflow().remove();">Remove</button>
+</div>
+
+
+</body>
+</html>
