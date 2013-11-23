@@ -174,6 +174,75 @@
 		return (h===0 ? "" : h.toString()+":")+m.toString()+":"+(s<10 ? "0"+s.toString() : s.toString());
 	};
 
+	C.HTMLCover = function(flow, index, htmlText, backgroundImage, duration, config) {
+
+		var _this = this;
+
+		var coverWidth = config.coverwidth;
+		var coverHeight = config.coverheight;
+		var newWidth;
+		var newHeight;
+		
+		this.index = index;
+		this.halfHeight = 0;
+		
+		this.el = document.createElement('div');
+		this.el.className = C.Cover.getClassName();
+		var cellStyle = this.el.style;
+		if (config.backgroundopacity === 1) {
+			cellStyle.backgroundColor = config.backgroundcolor;
+		}
+                if(backgroundImage)
+                    cellStyle.backgroundImage = "url('" + backgroundImage + "')";
+                cellStyle.backgroundRepeat = "no-repeat";
+                cellStyle.backgroundSize = "100% 100%";
+		
+                if(typeof htmlText == "string")
+                    this.el.innerHTML = htmlText;
+                else if(typeof htmlText == "object")
+                    this.el.appendChild(htmlText);
+
+	
+			var scale, cropTop = 0, wid = config.coverwidth, hei = config.coverheight;
+			// calculate the image size, ratio values
+			if (config.fixedsize) {
+				newWidth = Math.round(coverWidth);
+				newHeight = Math.round(coverHeight);
+				if (newWidth / wid < newHeight / hei) {
+					scale = newHeight / hei;
+					cropLeft += (wid - newWidth / scale) * 0.5;
+				} else {
+					scale = newWidth / wid;
+					cropTop += (hei - newHeight / scale) * 0.5;
+				}
+			} else {
+				if (coverWidth >= coverHeight) {
+					newWidth = Math.round(wid / hei * coverHeight);
+					newHeight = Math.round(coverHeight);
+					scale = coverHeight / hei;
+				} else {
+					newWidth = Math.round(coverWidth);
+					newHeight = Math.round(hei / wid * coverWidth);
+					scale = coverWidth / wid;
+				}
+			}
+			
+			_this.halfHeight = newHeight;
+			
+			cellStyle.top = -(newHeight * 0.35) + "px";
+			cellStyle.left = -(newWidth * 0.35) + "px";
+			cellStyle.width = (newWidth) + "px";
+			cellStyle.height = (newHeight) + "px";
+			if (config.reflectionopacity > 0) {
+				//cellStyle.height = (newHeight * 2) + "px";
+			}
+		
+		this.setY = function(maxCoverHeight) {
+			var offsetY = maxCoverHeight * 0.5 - (maxCoverHeight - newHeight);
+			this.el.style.top = -offsetY + "px";
+		};
+	};
+
 	if (window.CanvasRenderingContext2D && CanvasRenderingContext2D.prototype) {
 		CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 			if (w < 2 * r) r = w / 2;

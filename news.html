@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+        <head profile="http://www.w3.org/2005/10/profile">
+        <link rel="icon" type="image/png" href="favicon.png" />
+	<title>Cover Flow</title>
+	<link rel="stylesheet" href="coverflow.css"/>
+<style type="text/css" media="screen">
+.newsDiv {
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    margin-top: 65%;
+    opacity: 0.6;
+    border-width: 2px;
+    border-color: black;
+    background-size: 100%;
+    font-family: Helvetica;
+    font-size: 12px;
+    color: #FFFFFF;
+    padding: 12px;
+}
+
+.newsDivNoImage {
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.6;
+    border-width: 2px;
+    border-color: black;
+    background-size: 100%;
+    font-family: Helvetica;
+    font-size: 12px;
+    color: #FFFFFF;
+    padding: 12px;
+}
+
+img {
+    display: none;
+}
+
+.newsLink {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: larger;
+    color: rgb(0, 184, 255);
+}
+
+</style>
+</head>
+<body>
+       <div style="display:none;background-color: #ffffff;">
+            <a style="font-family: PT Sans;" href="news.html">News</a>
+            <a style=";font-family: PT Sans;" href="flickr.html">Flickr</a>
+        </div>
+	<div id="container">
+        </div>
+	<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
+	<script src="coverflow.js"></script>
+	<script src="jsonputil.js"></script>
+	<script src="yqlutil.js"></script>
+	<script>
+		function reset(myplaylist) {
+
+			coverflow('container').remove();
+			
+			coverflow('container').setup({
+				width: '100%',
+                                height: 500,
+				item: myplaylist.length/2,
+				//mousewheel: false,
+				//mode: "flash",
+                                backgroundcolor: "ffffff",
+				//backgroundcolor: '009900',
+				//backgroundopacity: 0,
+				//wmode: 'transparent',
+				//gradientcolor: 'ff0000',
+				//showduration: true,
+				//playlist: "playlist.json",
+				//playlist: "http://api.flickr.com/services/feeds/groups_pool.gne?id=807213@N20&format=json&jsoncallback=?",
+				//route: {
+				// 	playlist: "items",
+				// 	image: "media.m"
+				//},
+                                playlist: myplaylist,
+				coverwidth: 500,
+				coverheight: 500,
+				fixedsize: true,
+				textoffset: 50
+			})
+			.on('ready', function() {
+
+				this.on('focus', function(index) {
+					document.getElementById('focusindex').innerHTML = index;
+				});
+				
+				this.on('click', function(index, link) {
+					document.getElementById('clickindex').innerHTML = index;
+					
+					console.log("link: ", link);
+					if (link) {
+						window.open(link, '_blank');
+					}
+				});
+			});
+		}
+
+    // TBD: Retrieve yahoo ads from an ad server, possibly with preference to user's geo location.
+    // For now, just display a random ad among the following:
+    var adUrls = ['http://l1.yimg.com/bt/api/res/1.2/u84Sq1cNLahtF3Hbvp0ltQ--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMjg7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/oldspice-630_222210.jpg',
+        'http://l3.yimg.com/bt/api/res/1.2/i1MviJ1tkzQET0WRWAgYtw--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMTY7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/gm-630_222753.jpg',
+        'http://l3.yimg.com/bt/api/res/1.2/EMJk8lZY4b.NIPt4AxvWaA--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMzE7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/cbs-630_223023.jpg',
+        'http://l1.yimg.com/bt/api/res/1.2/lQ4e0CRoFpwOKN_uqmjnGg--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMjY7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/harrypotter-630_223211.jpg',
+        'http://l.yimg.com/bt/api/res/1.2/J3c10pcwGskXUSHSu27N2w--/YXBwaWQ9eW5ld3M7Zmk9aW5zZXQ7aD0zMjk7cT04NTt3PTYzMA--/http://media.zenfs.com/477/2011/08/31/terriersfx-630_222453.jpg',
+        'http://www.playmakeronline.com/wp-content/uploads/2012/04/Nike-Fuel-Featured.jpg',
+        'http://ewinsidetv.files.wordpress.com/2010/06/old-spice-man-isaiah--mustafa_510.jpg'
+        ];
+
+    function genericYahooCallback(data) {
+        console.log(JSON.stringify(data));
+        if(!data.query.results) {
+            console.log('Server returned empty results. Please contact application owner');
+            return;
+        }
+        var myplaylist = [];
+        var adText = '<span class="newsDiv">Advertisement</span>';
+        var posts = data.query.results.item;
+        for(var i in posts) {
+            if(typeof posts[i] != "object")
+                continue;
+            var div = document.createElement("div");
+            div.className = "newsDiv";
+            var elem = document.createElement('a');
+            elem.href = posts[i].link;
+            elem.target = "_blank";
+            elem.className = "newsLink";
+            var elemText = document.createTextNode(posts[i].title);
+            var backgroundImage = null;
+            if(posts[i].content && posts[i].content.type && posts[i].content.type == "image/jpeg") {
+                backgroundImage = posts[i].content.url; 
+                // Image urls of the following type is returned:
+                // http://l2.yimg.com/bt/api/res/1.2/y0XGSH.HiOzAwO4_8VYxAQ--/YXBwaWQ9eW5ld3M7Zmk9ZmlsbDtoPTg2O3E9NzU7dz0xMzA-/http://media.zenfs.com/en_us/News/ap_webfeeds/baf50cb547b00526430f6a7067001148.jpg
+                if(backgroundImage && backgroundImage.indexOf("-/http:") >= 0)
+                    backgroundImage = backgroundImage.substring(backgroundImage.indexOf("-/http:") + 2);
+            }
+            else {
+                div.className = "newsDivNoImage";
+            }
+            elem.appendChild(elemText);
+            div.appendChild(elem);
+            var innerDiv = document.createElement("div");
+            innerDiv.innerHTML = posts[i].description;
+            div.appendChild(innerDiv);
+            myplaylist[myplaylist.length] = {title: "", backgroundImage: backgroundImage, domElement: div, description: "", duration: 500};
+            if(i%5 == 1) {
+                var randomNum = Math.floor(Math.random()*(adUrls.length));
+                myplaylist[myplaylist.length] = {title: "", backgroundImage: adUrls[randomNum], text: adText, description: "", duration: 500};
+            }
+        }
+        reset(myplaylist);
+    }
+
+    function loadNewsFromRss(url) {
+        new YQLQuery("select * from rss where url='" + url + "'", genericYahooCallback).fetch();
+    }
+
+    loadNewsFromRss('news.yahoo.com/rss');
+
+	</script>
+
+<div style="width:480px">
+    <input type="radio" name="feed" id="thehindu" onclick="loadNewsFromRss('http://www.thehindu.com/news/?service=rss')">The Hindu</div>
+    <input type="radio" name="feed" id="yahoo" onclick="loadNewsFromRss('news.yahoo.com/rss')">Yahoo</div>
+</div>
+<div style="display:none;width:480px;">
+	<div style="float:right;">Focused: <b id="focusindex">0</b> | Clicked: <b id="clickindex">0</b></div>
+	<p>
+		<a href="javascript:;" onclick="coverflow().left();">Left</a> - <a href="javascript:;" onclick="coverflow().right();">Right</a>
+	</p>
+	<p>
+		<a href="javascript:;" onclick="coverflow().prev();">Previous</a> - <a href="javascript:;" onclick="coverflow().next();">Next</a>
+	</p>
+	<p>
+		<input id="toval" value="0" size="1"> <a href="javascript:;" onclick="coverflow().to(document.getElementById('toval').value);">To</a>
+	</p>
+	<p>
+		<a href="javascript:;" onclick="coverflow().fadeIn(function(){console.log(900);});">Fade in</a> - <a href="javascript:;" onclick="coverflow().fadeOut();">Fade out</a>
+	</p>
+    <button onclick="reset();">Reset</button>
+    <button onclick="coverflow().remove();">Remove</button>
+</div>
+
+
+</body>
+</html>
