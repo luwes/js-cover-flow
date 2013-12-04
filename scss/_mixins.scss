@@ -1,0 +1,10 @@
+
+@mixin prefixed($property, $value) {
+	@each $prefix in "-webkit-", "-moz-", "-ms-", "-o-", "" {
+		#{$prefix}#{$property}: #{$value};
+	}
+}
+
+@mixin transition($props) {
+    @include prefixed('transition', $props);
+}
