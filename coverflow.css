@@ -1,69 +1,62 @@
 .coverflow {
-	z-index: 10;
-	position: relative;
-	opacity: 1;
-	overflow: hidden;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	-webkit-text-size-adjust: none;
-	-ms-text-size-adjust: none;
-	-webkit-touch-callout: none;
-	-webkit-transition: opacity .7s;
-	-moz-transition: opacity .7s;
-	-ms-transition: opacity .7s;
-	-o-transition: opacity .7s;
-	transition: opacity .7s;
-}
+  z-index: 10;
+  position: relative;
+  opacity: 1;
+  overflow: hidden;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  -webkit-touch-callout: none;
+  -webkit-transition: opacity 0.7s;
+  -moz-transition: opacity 0.7s;
+  -ms-transition: opacity 0.7s;
+  -o-transition: opacity 0.7s;
+  transition: opacity 0.7s; }
 
 .coverflow .coverflow-wrap {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-}
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
 
 .coverflow .coverflow-wrap,
 .coverflow .coverflow-tray {
-	-webkit-transform-style: preserve-3d;
-	-moz-transform-style: preserve-3d;
-	-o-transform-style: preserve-3d;
-	-ms-transform-style: preserve-3d;
-	transform-style: preserve-3d;
-}
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d; }
 
 .coverflow .coverflow-tray,
 .coverflow .coverflow-cell {
-	position: absolute;
-	-webkit-backface-visibility: hidden;
-	-webkit-transition: -webkit-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
-	-moz-transition: -moz-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
-	-ms-transition: -ms-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
-	-o-transition: -o-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
-	transition: transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
-}
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  -moz-transition: -moz-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  -ms-transition: -ms-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  -o-transition: -o-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
 
 .coverflow .coverflow-cell canvas {
-	outline: 1px solid transparent;
-	position: absolute;
-	opacity: 1;
-	-webkit-transition: opacity .7s;
-	-moz-transition: opacity .7s;
-	-ms-transition: opacity .7s;
-	-o-transition: opacity .7s;
-	transition: opacity .7s;
-}
+  outline: 1px solid transparent;
+  position: absolute;
+  opacity: 1;
+  -webkit-transition: opacity 0.7s;
+  -moz-transition: opacity 0.7s;
+  -ms-transition: opacity 0.7s;
+  -o-transition: opacity 0.7s;
+  transition: opacity 0.7s; }
 
 .coverflow-text {
-	position: absolute;
-	opacity: 1;
-	-webkit-transition: opacity .7s;
-	-moz-transition: opacity .7s;
-	-ms-transition: opacity .7s;
-	-o-transition: opacity .7s;
-	transition: opacity .7s;
-	width: 100%;
-}
+  position: absolute;
+  opacity: 1;
+  width: 100%;
+  -webkit-transition: opacity 0.7s;
+  -moz-transition: opacity 0.7s;
+  -ms-transition: opacity 0.7s;
+  -o-transition: opacity 0.7s;
+  transition: opacity 0.7s; }
 
 .coverflow-text h1,
 .coverflow-text h2 {
-	margin: 0;
-}
+  margin: 0; }
