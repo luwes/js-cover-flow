@@ -1,5 +1,5 @@
 
-var Cover = function(flow, index, url, duration, config) {
+var Cover = function(flow, index, url, config) {
 
 	var _this = this;
 
@@ -34,44 +34,6 @@ var Cover = function(flow, index, url, duration, config) {
 		var cropBottom = 0;
 		var cropLeft = 0;
 		var ctx;
-			
-		// algorithm to remove top and bottom black border of thumbnail
-		if (config.removeblackborder) {
-		
-			var b = document.createElement('canvas');
-			b.width = wid;
-			b.height = hei;
-			ctx = b.getContext('2d');
-			ctx.drawImage(image, 0, 0);
-			var bmd = ctx.getImageData(0, 0, wid, hei).data;
-			
-			var sum = 0;
-			var x = 0;
-			var i = 0;
-
-			for (var y=0; y < hei; y++) {
-				sum = 0;
-				for (x=0; x < wid; x++) {
-					i = (y * wid + x) * 4;
-					sum += ((bmd[i] << 16) | (bmd[i+1] << 8) | bmd[i+2]);
-				}
-				if (sum/wid < 0x070707) cropTop++;
-				else break;
-			}
-			
-			for (y=hei-1; y>=0; y--) {
-				sum = 0;
-				for (x=0; x < wid; x++) {
-					i = (y * wid + x) * 4;
-					sum += ((bmd[i] << 16) | (bmd[i+1] << 8) | bmd[i+2]);
-				}
-				
-				if (sum/wid < 0x070707) cropBottom++;
-				else break;
-			}
-			
-			hei -= (cropTop + cropBottom);
-		}
 					
 		var scale;
 		// calculate the image size, ratio values
@@ -108,27 +70,6 @@ var Cover = function(flow, index, url, duration, config) {
 		bitmap.height = newHeight * 2;
 		ctx = bitmap.getContext('2d');
 		ctx.drawImage(image, cropLeft, cropTop, wid-2*cropLeft, hei-2*cropTop, 0, 0, newWidth, newHeight);
-	
-		if (config.showduration && duration > 0) {
-			ctx.save();
-
-			var text = Cover.formatTime(duration);
-			ctx.font = 'normal 10px Arial Rounded MT Bold, Arial';
-			var metrics = ctx.measureText(text);
-			var textWidth = metrics.width;
-
-			ctx.roundRect(newWidth - (textWidth + 9), 5, textWidth + 4, 11, 2);
-			ctx.fillStyle = '#000';
-			ctx.globalAlpha = 0.7;
-			ctx.fill();
-
-			ctx.fillStyle = '#fff';
-			ctx.globalAlpha = 0.8;
-			ctx.textAlign = 'right';
-			ctx.fillText(text, newWidth - 7, 14);
-
-			ctx.restore();
-		}
 
 		if (config.reflectionopacity > 0) {
 			cellStyle.height = (newHeight * 2) + 'px';
@@ -164,26 +105,3 @@ Cover.reflect = function(bitmap, wid, hei, reflectOpacity, reflectRatio, reflect
 	ctx.fillStyle = gradient;
 	ctx.fillRect(0, 0, wid, hei);
 };
-
-// function to format the time like 00:00
-Cover.formatTime = function(secs) {
-	var h = Math.floor(secs / 3600);
-	var m = Math.floor((secs % 3600) / 60);
-	var s = Math.floor((secs % 3600) % 60);
-	return (h===0 ? '' : h.toString()+':')+m.toString()+':'+(s<10 ? '0'+s.toString() : s.toString());
-};
-
-if (window.CanvasRenderingContext2D && CanvasRenderingContext2D.prototype) {
-	CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
-		if (w < 2 * r) r = w / 2;
-		if (h < 2 * r) r = h / 2;
-		this.beginPath();
-		this.moveTo(x+r, y);
-		this.arcTo(x+w, y,   x+w, y+h, r);
-		this.arcTo(x+w, y+h, x,   y+h, r);
-		this.arcTo(x,   y+h, x,   y,   r);
-		this.arcTo(x,   y,   x+w, y,   r);
-		this.closePath();
-		return this;
-	};
-}

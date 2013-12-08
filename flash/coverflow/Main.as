@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2012 Wesley Luyten
+* Copyright (c) 2013 Wesley Luyten
 **/
 
 package coverflow {

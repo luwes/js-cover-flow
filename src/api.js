@@ -30,13 +30,11 @@ var Api = function(id) {
 			coverangle:				70,
 			coverdepth:				170,
 			coveroffset:			130,
-			removeblackborder:		false,
 			fixedsize:				false,
 			opacitydecrease:		0.1,	//is not enabled in HTML5, too slow on iOS
 			reflectionopacity:		0.3,
 			reflectionratio:		155,
 			reflectionoffset:		0,
-			showduration:			false,
 			showtext:				true,
 			textstyle:				'.coverflow-text{color:#f1f1f1;text-align:center;font-family:Arial Rounded MT Bold,Arial;} .coverflow-text h1{font-size:14px;font-weight:normal;line-height:21px;} .coverflow-text h2{font-size:11px;font-weight:normal;} .coverflow-text a{color:#0000EE;}',
 			textoffset:				75,

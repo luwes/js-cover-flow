@@ -38,7 +38,7 @@ var CoverFlow = function(div, playlist, config) {
 	var cover = null;
 	for (var i = 0; i < coversLength; i++) {
 		
-		cover = new Cover(_this, i, playlist[i].image, playlist[i].duration, config);
+		cover = new Cover(_this, i, playlist[i].image, config);
 		this.tray.appendChild(cover.el);
 		cover.el.addEventListener('mousedown', clickHandler);
 		cover.el.style[Modernizr.prefixed('transitionDuration')] = this.config.tweentime + 's';

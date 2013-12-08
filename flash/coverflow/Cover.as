@@ -1,5 +1,5 @@
 /**
-* Copyright (c) 2012 Wesley Luyten
+* Copyright (c) 2013 Wesley Luyten
 **/
 
 package coverflow {
@@ -29,7 +29,6 @@ package coverflow {
 	
 		private var coverFlow:CoverFlow;
 		public var index:int;
-		private var duration:int;
 		private var config:Object;
 		
 		public var bitmap:Bitmap;
@@ -39,11 +38,10 @@ package coverflow {
 		public var _brightness:Number = 1;
 		
 		
-		public function Cover(coverFlow:CoverFlow, index:int, url:String, duration:int, config:Object) {
+		public function Cover(coverFlow:CoverFlow, index:int, url:String, config:Object) {
 			
 			this.coverFlow = coverFlow;
 			this.index = index;
-			this.duration = duration;
 			this.config = config;
 			
 			mouseChildren = false;
@@ -75,30 +73,6 @@ package coverflow {
 			var cropTop:Number = 0;
 			var cropBottom:Number = 0;
 			var cropLeft:Number = 0;
-			
-			// algorithm to remove top and bottom black border of thumbnail
-			if (config.removeblackborder) {
-			
-				for (var i:int=0; i < hei; i++) {
-					var sum:Number = 0;
-					for (var j:int=0; j < wid; j++) {
-						sum += bmd.getPixel(j, i);
-					}
-					if (sum/wid < 0x070707) cropTop++;
-					else break;
-				}
-				
-				for (i=hei-1; i>=0; i--) {
-					sum = 0;
-					for (j=0; j < wid; j++) {
-						sum += bmd.getPixel(j, i);
-					}
-					if (sum/wid < 0x070707) cropBottom++;
-					else break;
-				}
-	
-				hei -= (cropTop + cropBottom);
-			}
 			
 			var scale:Number;
 			// calculate the image size, ratio values
@@ -144,28 +118,6 @@ package coverflow {
 			bitmap.width = newWidth;
 			bitmap.height = newHeight * 2;
 			bitmap.bitmapData.draw(scaledBmd);
-
-			if (config.showduration && duration > 0) {
-				// if a duration is set, a little text bubble is added top right with the duration
-				var lbl:TextField = new TextField();
-				lbl.autoSize = "left";
-				lbl.y = -2;
-				var form:TextFormat = new TextFormat("Arial Rounded MT Bold,Arial", 10, 0xFFFFFF);
-				form.align = "center";
-				lbl.defaultTextFormat = form;
-				lbl.text = formatTime(duration);
-				lbl.alpha = 0.8;
-				
-				var s:Sprite = new Sprite();
-				s.graphics.beginFill(0, 0.7);
-				s.graphics.drawRoundRect(0, 0, lbl.textWidth+5, 11, 5);
-				s.graphics.endFill();
-				s.addChild(lbl);
-				
-				m = new Matrix();
-				m.translate(newWidth - (lbl.textWidth + 10), 5);
-				bitmap.bitmapData.draw(s, m);
-			}
 			
 			bitmap.x = -newWidth * 0.5;
 			y = -newHeight * 0.5;
@@ -201,14 +153,6 @@ package coverflow {
 		
 			var offsetY:Number = maxCoverHeight * 0.5 - (maxCoverHeight - newHeight);
 			y = -offsetY;
-		}
-		
-		// function to format the time like 00:00
-		public function formatTime(secs:Number):String {
-			var h:Number = Math.floor(secs / 3600);
-			var m:Number = Math.floor((secs % 3600) / 60);
-			var s:Number = Math.floor((secs % 3600) % 60);
-			return (h==0 ? "" : h.toString()+":")+m.toString()+":"+(s<10 ? "0"+s.toString() : s.toString());
 		}
 		
 		public function set brightness(value:Number):void {
