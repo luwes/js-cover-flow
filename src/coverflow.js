@@ -17,6 +17,8 @@ var CoverFlow = function(div, playlist, config) {
 
 	this.covers = [];
 	this.transforms = [];
+	this.hits = [];
+	this.transforms2 = [];
 	this.prevF = -1;
 	this.transformProp = Modernizr.prefixed('transform');
 	this.space = config.coveroffset + config.covergap;
@@ -31,18 +33,27 @@ var CoverFlow = function(div, playlist, config) {
 	this.tray = document.createElement('div');
 	this.tray.className = 'coverflow-tray';
 	this.el.appendChild(this.tray);
+	this.rect = document.createElement('div');
+	this.rect.className = 'coverflow-rect';
+	this.el.appendChild(this.rect);
+	
 	this.el.style[Modernizr.prefixed('perspective')] = config.focallength+'px';
 	
 	var controller = new Controller(this, this.tray, this.config);
 
 	var cover = null;
+	var hit = null;
 	for (var i = 0; i < coversLength; i++) {
 		
 		cover = new Cover(_this, i, playlist[i].image, config);
 		this.tray.appendChild(cover.el);
-		cover.el.addEventListener('mousedown', clickHandler);
 		cover.el.style[Modernizr.prefixed('transitionDuration')] = this.config.tweentime + 's';
 		this.covers[i] = cover;
+
+		hit = new Hit(_this, i, config);
+		this.rect.appendChild(hit.el);
+		hit.el.addEventListener('mousedown', clickHandler);
+		this.hits[i] = hit;
 	}
 
 	//cover holds the last cover added
@@ -87,7 +98,9 @@ var CoverFlow = function(div, playlist, config) {
 		if (completeLength == coversLength) {
 			_this.to(config.item);
 			for (var i = 0; i < coversLength; i++) {
-				this.covers[i].setY(maxCoverHeight);
+				var cover = this.covers[i];
+				cover.setY(maxCoverHeight);
+				this.hits[i].resize(cover.width, cover.height);
 			}
 		}
 	};
@@ -155,21 +168,22 @@ var CoverFlow = function(div, playlist, config) {
 		this.offsetX = config.width * 0.5 + config.x;
 		this.offsetY = config.height * 0.5 + config.y;
 		this.setTrayStyle((controller.currentX + this.offsetX), this.offsetY);
+		this.setRectStyle((controller.currentX + this.offsetX), this.offsetY);
 	};
 	
 	function clickHandler(e) {
 		if (e.button === 0) {
+			e.preventDefault();
+
 			var child = this;
 			var i = 0;
 			while ((child = child.previousSibling) !== null) i += 1;
 
-			var cover = _this.covers[i];
-			var y = e.offsetY || e.layerY;
-			if (y < cover.halfHeight) {
-				e.preventDefault();
-
-				if (cover.index != current) _this.to(cover.index);
-				else _this.clicked(cover.index);
+			var hit = _this.hits[i];
+			if (hit.index == current) {
+				_this.clicked(hit.index);
+			} else {
+				_this.to(hit.index);
 			}
 		}
 	}
@@ -247,6 +261,10 @@ CoverFlow.prototype.setTrayStyle = function(x, y) {
 	this.tray.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 };
 
+CoverFlow.prototype.setRectStyle = function(x, y) {
+	this.rect.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+};
+
 CoverFlow.prototype.setCoverStyle = function(cover, i, transform) {
 	if (this.transforms[i] != transform) {
 		cover.el.style[this.transformProp] = transform;
@@ -265,8 +283,16 @@ CoverFlow.prototype.getCoverTransform = function(f, i) {
 	}
 };
 
+CoverFlow.prototype.setHitStyle = function(hit, i, transform) {
+	if (this.transforms2[i] != transform) {
+		hit.el.style[this.transformProp] = transform;
+		this.transforms2[i] = transform;
+	}
+};
+
 CoverFlow.prototype.update = function(currentX) {
 	this.setTrayStyle((currentX + this.offsetX), this.offsetY);
+	this.setRectStyle((currentX + this.offsetX), this.offsetY);
 
 	var f = this.getFocusedCoverOne(currentX);
 	if (f != this.prevF) {
@@ -276,5 +302,6 @@ CoverFlow.prototype.update = function(currentX) {
 	
 	for (var i = 0; i < this.covers.length; i++) {
 		this.setCoverStyle(this.covers[i], i, this.getCoverTransform(f, i));
+		this.setHitStyle(this.hits[i], i, this.getCoverTransform(f, i));
 	}
 };

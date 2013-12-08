@@ -21,7 +21,9 @@
 }
 
 .coverflow .coverflow-wrap,
-.coverflow .coverflow-tray {
+.coverflow .coverflow-tray,
+.coverflow .coverflow-rect {
+	position: absolute;
 	@include prefixed(transform-style, preserve-3d);
 }
 
@@ -34,6 +36,11 @@
 	-ms-transition: -ms-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 	-o-transition: -o-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 	transition: transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
+}
+
+.coverflow .coverflow-hit {
+	position: absolute;
+	opacity: 0;
 }
 
 .coverflow .coverflow-cell canvas {
