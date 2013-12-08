@@ -52,7 +52,6 @@ var CoverFlow = function(div, playlist, config) {
 
 		hit = new Hit(_this, i, config);
 		this.rect.appendChild(hit.el);
-		hit.el.addEventListener('mousedown', clickHandler);
 		this.hits[i] = hit;
 	}
 
@@ -64,6 +63,7 @@ var CoverFlow = function(div, playlist, config) {
 
 	div.addEventListener('touchstart', controller, true);
 	div.addEventListener('keydown', keyboard, false);
+	this.rect.addEventListener('mousedown', clickHandler, false);
 
 
 	function coverTransitionEnd(e) {
@@ -175,11 +175,7 @@ var CoverFlow = function(div, playlist, config) {
 		if (e.button === 0) {
 			e.preventDefault();
 
-			var child = this;
-			var i = 0;
-			while ((child = child.previousSibling) !== null) i += 1;
-
-			var hit = _this.hits[i];
+			var hit = _this.hits[_.getChildIndex(e.target)];
 			if (hit.index == current) {
 				_this.clicked(hit.index);
 			} else {
@@ -233,27 +229,15 @@ CoverFlow.prototype.getFocusedCoverOne = function(currentX) {
 	return Math.min(Math.max(i, -1), this.covers.length);
 };
 
-CoverFlow.prototype.tap = function(e, pageY, currentX) {
-	var i = -Math.round(currentX / this.config.covergap);
-	var cover = this.covers[i];
-	if (cover.el == e.target.parentNode) {
-		var pos = this.findPos(this.tray);
-		var y = pos.y + this.offsetY + cover.halfHeight / 2;
-		if (pageY < y) {
-			this.clicked(cover.index);
+CoverFlow.prototype.tap = function(e, currentX) {
+	if (e.target.className == 'coverflow-hit') {
+		var current = this.getFocusedCover(currentX);
+		var hit = this.hits[_.getChildIndex(e.target)];
+		if (hit.index == current) {
+			this.clicked(hit.index);
+		} else {
+			this.to(hit.index);
 		}
-	}
-};
-
-CoverFlow.prototype.findPos = function(obj) {
-	var curleft = 0;
-	var curtop = 0;
-	if (obj.offsetParent) {
-		do {
-			curleft += obj.offsetLeft;
-			curtop += obj.offsetTop;
-		} while ((obj = obj.offsetParent) !== null);
-		return { x: curleft, y: curtop };
 	}
 };
 

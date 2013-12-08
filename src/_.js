@@ -171,5 +171,13 @@ var _ = {
 		return ratio[0] < ratio[1] ?
 			{ left: (wid - newWid / ratio[1]) * 0.5, top: 0, ratio: ratio[1] } :
 			{ top: (hei - newHei / ratio[0]) * 0.5, left: 0, ratio: ratio[0] } ;
+	},
+
+	getChildIndex: function(node) {
+		var i = 0;
+		while ((node = node.previousSibling) !== null) {
+			if (node.nodeType === 1) ++i;
+		}
+		return i;
 	}
 };

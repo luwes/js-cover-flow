@@ -46,21 +46,21 @@ Controller.prototype.touchmove = function(e) {
 
 Controller.prototype.touchend = function(e) {
 	e.stopImmediatePropagation();
+	e.preventDefault();
+
 	window.removeEventListener('touchmove', this, true);
 	window.removeEventListener('touchend', this, true);
 
 	this.elem.style[this.transformProp] = this.config.tweentime + 's';
 
 	if (this.moved) {
-		e.preventDefault();
-
 		var delta = this.currentX - this.lastX;
 		var dt = new Date().getTime() - this.lastMoveTime + 1;
 		
 		this.currentX = this.currentX + delta * 50 / dt;
 		this.flow.updateTouchEnd(this);
 	} else {
-		this.flow.tap(e, this.pageY, this.currentX);
+		this.flow.tap(e, this.currentX);
 	}
 };
 
