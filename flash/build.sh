@@ -10,4 +10,5 @@ $FLEXPATH/bin/mxmlc ./coverflow/Main.as \
 	-o ../coverflow.swf \
 	-library-path+=./ \
 	-static-link-runtime-shared-libraries=true \
+	-warnings=false \
 	-debug=false

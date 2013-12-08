@@ -4,22 +4,12 @@
 
 package coverflow {
 
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Loader;
-	import flash.display.GradientType;
-	import flash.display.BlendMode;
-	import flash.events.Event;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.geom.*;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
-	import flash.text.AntiAliasType;
+	import flash.text.*;
 	import flash.utils.ByteArray;
 
 	import by.blooddy.crypto.Base64;
@@ -48,6 +38,7 @@ package coverflow {
 			
 			var loader:Loader = new Loader(); // create loader for the image
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onComplete);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			if (url) {
 				if (url.match('base64,')) {
 					var str:String = url.split('base64,')[1];
@@ -61,6 +52,10 @@ package coverflow {
 			bitmap = new Bitmap();
 			addChild(bitmap);
 		}
+
+		private function onError(e:Event):void {
+			trace("ioErrorHandler: " + e);
+		}
 		
 		private function onComplete(e:Event):void {
 			e.target.removeEventListener(Event.COMPLETE, onComplete);
@@ -73,29 +68,21 @@ package coverflow {
 			var cropTop:Number = 0;
 			var cropBottom:Number = 0;
 			var cropLeft:Number = 0;
+			var scale:Number = 1;
 			
-			var scale:Number;
 			// calculate the image size, ratio values
 			if (config.fixedsize) {
-				newWidth = config.coverwidth;
-				newHeight = config.coverheight;
-				if (newWidth / wid < newHeight / hei) {
-					scale = newHeight / hei;
-					cropLeft += (wid - newWidth / scale) * 0.5;
-				} else {
-					scale = newWidth / wid;
-					cropTop += (hei - newHeight / scale) * 0.5;
-				}
+				newWidth = Math.round(config.coverwidth);
+				newHeight = Math.round(config.coverheight);
+				var off = _.getCropOffsets(wid, hei, newWidth, newHeight);
+				cropLeft = Math.round(off.left);
+				cropTop = Math.round(off.top);
+				scale = off.ratio;
 			} else {
-				if (config.coverwidth >= config.coverheight) {
-					newWidth = wid / hei * config.coverheight;
-					newHeight = config.coverheight;
-					scale = config.coverheight / hei;
-				} else {
-					newWidth = config.coverwidth;
-					newHeight = hei / wid * config.coverwidth;
-					scale = config.coverwidth / wid;
-				}
+				var fit = _.getResizeDimensions(wid, hei, config.coverwidth, config.coverheight);
+				newWidth = Math.round(fit.width);
+				newHeight = Math.round(fit.height);
+				scale = fit.ratio;
 			}
 			
 			halfHeight = newHeight;

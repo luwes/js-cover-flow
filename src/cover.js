@@ -3,8 +3,8 @@ var Cover = function(flow, index, url, config) {
 
 	var _this = this;
 
-	var coverWidth = config.coverwidth;
-	var coverHeight = config.coverheight;
+	var maxWidth = config.coverwidth;
+	var maxHeight = config.coverheight;
 	var newWidth;
 	var newHeight;
 	
@@ -31,34 +31,23 @@ var Cover = function(flow, index, url, config) {
 		var hei = image.height;
 			
 		var cropTop = 0;
-		var cropBottom = 0;
 		var cropLeft = 0;
-		var ctx;
-					
-		var scale;
+		
 		// calculate the image size, ratio values
 		if (config.fixedsize) {
-			newWidth = Math.round(coverWidth);
-			newHeight = Math.round(coverHeight);
-			if (newWidth / wid < newHeight / hei) {
-				scale = newHeight / hei;
-				cropLeft += (wid - newWidth / scale) * 0.5;
-			} else {
-				scale = newWidth / wid;
-				cropTop += (hei - newHeight / scale) * 0.5;
-			}
+			newWidth = Math.round(maxWidth);
+			newHeight = Math.round(maxHeight);
+			var off = _.getCropOffsets(wid, hei, newWidth, newHeight);
+			cropLeft = Math.round(off.left);
+			cropTop = Math.round(off.top);
 		} else {
-			if (coverWidth >= coverHeight) {
-				newWidth = Math.round(wid / hei * coverHeight);
-				newHeight = Math.round(coverHeight);
-				scale = coverHeight / hei;
-			} else {
-				newWidth = Math.round(coverWidth);
-				newHeight = Math.round(hei / wid * coverWidth);
-				scale = coverWidth / wid;
-			}
+			var fit = _.getResizeDimensions(wid, hei, maxWidth, maxHeight);
+			newWidth = Math.round(fit.width);
+			newHeight = Math.round(fit.height);
 		}
 		
+		_this.width = newWidth;
+		_this.height = newHeight;
 		_this.halfHeight = newHeight;
 		
 		cellStyle.top = -(newHeight * 0.5) + 'px';
@@ -68,7 +57,7 @@ var Cover = function(flow, index, url, config) {
 
 		bitmap.width = newWidth;
 		bitmap.height = newHeight * 2;
-		ctx = bitmap.getContext('2d');
+		var ctx = bitmap.getContext('2d');
 		ctx.drawImage(image, cropLeft, cropTop, wid-2*cropLeft, hei-2*cropTop, 0, 0, newWidth, newHeight);
 
 		if (config.reflectionopacity > 0) {

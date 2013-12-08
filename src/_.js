@@ -157,5 +157,19 @@ var _ = {
 		// Use insertBefore instead of appendChild  to circumvent an IE6 bug.
 		// This arises when a base node is used (#2709 and #4378).
 		head.insertBefore(script, head.firstChild);
+	},
+
+	getResizeDimensions: function(wid, hei, maxWid, maxHei) {
+
+		var ratio = Math.min(maxWid / wid, maxHei / hei);
+		return { width: wid*ratio, height: hei*ratio, ratio: ratio };
+	},
+
+	getCropOffsets: function(wid, hei, newWid, newHei) {
+
+		var ratio = [newWid / wid, newHei / hei];
+		return ratio[0] < ratio[1] ?
+			{ left: (wid - newWid / ratio[1]) * 0.5, top: 0, ratio: ratio[1] } :
+			{ top: (hei - newHei / ratio[0]) * 0.5, left: 0, ratio: ratio[0] } ;
 	}
 };
