@@ -39,7 +39,7 @@
 
 .coverflow .coverflow-hit {
 	position: absolute;
-	opacity: 0.2;
+	opacity: 0;
 	@include prefixed('backface-visibility', 'hidden');
 }
 

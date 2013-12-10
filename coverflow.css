@@ -44,7 +44,7 @@
 
 .coverflow .coverflow-hit {
   position: absolute;
-  opacity: 0.2;
+  opacity: 0;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
