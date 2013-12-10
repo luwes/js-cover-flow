@@ -3,8 +3,6 @@ var Cover = function(flow, index, url, config) {
 
 	var _this = this;
 
-	var maxWidth = config.coverwidth;
-	var maxHeight = config.coverheight;
 	var newWidth;
 	var newHeight;
 	
@@ -35,13 +33,13 @@ var Cover = function(flow, index, url, config) {
 		
 		// calculate the image size, ratio values
 		if (config.fixedsize) {
-			newWidth = Math.round(maxWidth);
-			newHeight = Math.round(maxHeight);
+			newWidth = Math.round(config.coverwidth);
+			newHeight = Math.round(config.coverheight);
 			var off = _.getCropOffsets(wid, hei, newWidth, newHeight);
 			cropLeft = Math.round(off.left);
 			cropTop = Math.round(off.top);
 		} else {
-			var fit = _.getResizeDimensions(wid, hei, maxWidth, maxHeight);
+			var fit = _.getResizeDimensions(wid, hei, config.coverwidth, config.coverheight);
 			newWidth = Math.round(fit.width);
 			newHeight = Math.round(fit.height);
 		}
@@ -52,8 +50,8 @@ var Cover = function(flow, index, url, config) {
 		
 		cellStyle.top = -(newHeight * 0.5) + 'px';
 		cellStyle.left = -(newWidth * 0.5) + 'px';
-		cellStyle.width = (newWidth) + 'px';
-		cellStyle.height = (newHeight) + 'px';
+		cellStyle.width = newWidth + 'px';
+		cellStyle.height = newHeight + 'px';
 
 		bitmap.width = newWidth;
 		bitmap.height = newHeight * 2;

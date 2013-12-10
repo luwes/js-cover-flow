@@ -38,6 +38,7 @@ var CoverFlow = function(div, playlist, config) {
 	this.el.appendChild(this.rect);
 	
 	this.el.style[Modernizr.prefixed('perspective')] = config.focallength+'px';
+	this.tray.style[Modernizr.prefixed('transitionDuration')] = this.config.tweentime + 's';
 	
 	var controller = new Controller(this, this.tray, this.config);
 
@@ -249,6 +250,13 @@ CoverFlow.prototype.setRectStyle = function(x, y) {
 	this.rect.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 };
 
+CoverFlow.prototype.setHitStyle = function(hit, i, transform) {
+	if (this.transforms2[i] != transform) {
+		hit.el.style[this.transformProp] = transform;
+		this.transforms2[i] = transform;
+	}
+};
+
 CoverFlow.prototype.setCoverStyle = function(cover, i, transform) {
 	if (this.transforms[i] != transform) {
 		cover.el.style[this.transformProp] = transform;
@@ -267,16 +275,9 @@ CoverFlow.prototype.getCoverTransform = function(f, i) {
 	}
 };
 
-CoverFlow.prototype.setHitStyle = function(hit, i, transform) {
-	if (this.transforms2[i] != transform) {
-		hit.el.style[this.transformProp] = transform;
-		this.transforms2[i] = transform;
-	}
-};
-
 CoverFlow.prototype.update = function(currentX) {
-	this.setTrayStyle((currentX + this.offsetX), this.offsetY);
 	this.setRectStyle((currentX + this.offsetX), this.offsetY);
+	this.setTrayStyle((currentX + this.offsetX), this.offsetY);
 
 	var f = this.getFocusedCoverOne(currentX);
 	if (f != this.prevF) {
@@ -285,7 +286,7 @@ CoverFlow.prototype.update = function(currentX) {
 	}
 	
 	for (var i = 0; i < this.covers.length; i++) {
-		this.setCoverStyle(this.covers[i], i, this.getCoverTransform(f, i));
 		this.setHitStyle(this.hits[i], i, this.getCoverTransform(f, i));
+		this.setCoverStyle(this.covers[i], i, this.getCoverTransform(f, i));
 	}
 };

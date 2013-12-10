@@ -19,7 +19,6 @@
   height: 100%;
   overflow: hidden; }
 
-.coverflow .coverflow-wrap,
 .coverflow .coverflow-tray,
 .coverflow .coverflow-rect {
   position: absolute;
@@ -41,7 +40,8 @@
 
 .coverflow .coverflow-hit {
   position: absolute;
-  opacity: 0; }
+  opacity: 0;
+  -webkit-backface-visibility: hidden; }
 
 .coverflow .coverflow-cell canvas {
   outline: 1px solid transparent;
