@@ -10,7 +10,7 @@
 	-webkit-text-size-adjust: none;
 	-ms-text-size-adjust: none;
 	-webkit-touch-callout: none;
-	@include transition(opacity .7s);
+	@include transition('opacity .7s');
 }
 
 .coverflow .coverflow-wrap {
@@ -23,38 +23,38 @@
 .coverflow .coverflow-tray,
 .coverflow .coverflow-rect {
 	position: absolute;
-	@include prefixed(transform-style, preserve-3d);
+	@include prefixed('transform-style', 'preserve-3d');
 }
 
 .coverflow .coverflow-tray,
 .coverflow .coverflow-cell {
 	position: absolute;
-	-webkit-backface-visibility: hidden;
 	-webkit-transition: -webkit-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 	-moz-transition: -moz-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 	-ms-transition: -ms-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 	-o-transition: -o-transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
 	transition: transform .8s cubic-bezier(0.190,1.000,0.220,1.000);
+	@include prefixed('backface-visibility', 'hidden');
 }
 
 .coverflow .coverflow-hit {
 	position: absolute;
-	opacity: 0;
-	-webkit-backface-visibility: hidden;
+	opacity: 0.2;
+	@include prefixed('backface-visibility', 'hidden');
 }
 
 .coverflow .coverflow-cell canvas {
 	outline: 1px solid transparent;
 	position: absolute;
 	opacity: 1;
-	@include transition(opacity .7s);
+	@include transition('opacity .7s');
 }
 
 .coverflow-text {
 	position: absolute;
 	opacity: 1;
 	width: 100%;
-	@include transition(opacity .7s);
+	@include transition('opacity .7s');
 }
 
 .coverflow-text h1,

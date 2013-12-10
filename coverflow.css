@@ -7,11 +7,11 @@
   -webkit-text-size-adjust: none;
   -ms-text-size-adjust: none;
   -webkit-touch-callout: none;
-  -webkit-transition: opacity 0.7s;
-  -moz-transition: opacity 0.7s;
-  -ms-transition: opacity 0.7s;
-  -o-transition: opacity 0.7s;
-  transition: opacity 0.7s; }
+  -webkit-transition: opacity .7s;
+  -moz-transition: opacity .7s;
+  -ms-transition: opacity .7s;
+  -o-transition: opacity .7s;
+  transition: opacity .7s; }
 
 .coverflow .coverflow-wrap {
   position: absolute;
@@ -31,37 +31,45 @@
 .coverflow .coverflow-tray,
 .coverflow .coverflow-cell {
   position: absolute;
-  -webkit-backface-visibility: hidden;
   -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   -moz-transition: -moz-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   -ms-transition: -ms-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   -o-transition: -o-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
-  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden; }
 
 .coverflow .coverflow-hit {
   position: absolute;
-  opacity: 0;
-  -webkit-backface-visibility: hidden; }
+  opacity: 0.2;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden; }
 
 .coverflow .coverflow-cell canvas {
   outline: 1px solid transparent;
   position: absolute;
   opacity: 1;
-  -webkit-transition: opacity 0.7s;
-  -moz-transition: opacity 0.7s;
-  -ms-transition: opacity 0.7s;
-  -o-transition: opacity 0.7s;
-  transition: opacity 0.7s; }
+  -webkit-transition: opacity .7s;
+  -moz-transition: opacity .7s;
+  -ms-transition: opacity .7s;
+  -o-transition: opacity .7s;
+  transition: opacity .7s; }
 
 .coverflow-text {
   position: absolute;
   opacity: 1;
   width: 100%;
-  -webkit-transition: opacity 0.7s;
-  -moz-transition: opacity 0.7s;
-  -ms-transition: opacity 0.7s;
-  -o-transition: opacity 0.7s;
-  transition: opacity 0.7s; }
+  -webkit-transition: opacity .7s;
+  -moz-transition: opacity .7s;
+  -ms-transition: opacity .7s;
+  -o-transition: opacity .7s;
+  transition: opacity .7s; }
 
 .coverflow-text h1,
 .coverflow-text h2 {
