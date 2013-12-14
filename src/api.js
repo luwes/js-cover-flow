@@ -134,6 +134,7 @@ var Api = function(id) {
 		if (readyFlag && event === 'ready') {
 			this.events.ready.trigger.apply(this);
 		}
+		return this;
 	};
 
 	this.off = function(event, func) {
