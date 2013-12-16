@@ -102,6 +102,7 @@ var CoverFlow = function(div, playlist, config) {
 				var cover = this.covers[i];
 				cover.setY(maxCoverHeight);
 				this.hits[i].resize(cover.width, cover.height);
+				this.hits[i].setY(maxCoverHeight);
 			}
 		}
 	};
