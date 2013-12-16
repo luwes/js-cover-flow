@@ -3,7 +3,7 @@ var Html5 = function(api) {
 
 	var _this = this;
 
-	var div = api.container;
+	var div = api.el;
 	var config = api.config;
 	var playlist;
 	var coverFlow;

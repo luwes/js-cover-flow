@@ -12,7 +12,7 @@ var Flash = function(api) {
 			'<param name="flashvars" value="' + jsonToFlashvars(api.config) + '" />' +
 			'<a href="http://get.adobe.com/flashplayer/">Get Adobe Flash player</a>' +
 		'</object>';
-		api.container.innerHTML = html;
+		api.el.innerHTML = html;
 		
 		swf = document.getElementById(api.id + '-coverflow-flash');
 	}

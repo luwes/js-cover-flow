@@ -6,7 +6,7 @@ var Api = function(id) {
 	var readyFlag;
 
 	this.id = id;
-	this.container = document.getElementById(id);
+	this.el = document.getElementById(id);
 	this.config = null;
 
 	this.setup = function(options) {
@@ -59,10 +59,10 @@ var Api = function(id) {
 		this.config = _.extend(defaultConfig, options);
 		this.config.id = this.id;
 
-		this.container = document.getElementById(id);
-		this.container.innerHTML = '';
-		this.container.tabIndex = 0;
-		_.addClass(this.container, 'coverflow');
+		this.el = document.getElementById(id);
+		this.el.innerHTML = '';
+		this.el.tabIndex = 0;
+		_.addClass(this.el, 'coverflow');
 
 		if (String(this.config.width).indexOf('%') !== -1) {
 			_.off(window, 'resize', resizeHandler);
@@ -91,8 +91,8 @@ var Api = function(id) {
 	this.remove = function() {
 		var replacement = document.createElement('div');
 		replacement.id = this.id;
-		this.container.parentNode.replaceChild(replacement, this.container);
-		this.container = replacement;
+		this.el.parentNode.replaceChild(replacement, this.el);
+		this.el = replacement;
 
 		_.off(window, 'resize', resizeHandler);
 		if (player) player.destroy();
@@ -106,13 +106,13 @@ var Api = function(id) {
 
 	this.resize = function(wid, hei) {
 
-		_.css(this.container, {
+		_.css(this.el, {
 			width: wid,
 			height: hei
 		});
 
-		this.config.width = this.container.clientWidth;
-		this.config.height = this.container.clientHeight;
+		this.config.width = this.el.clientWidth;
+		this.config.height = this.el.clientHeight;
 
 		if (player) {
 			player.resize(this.config.width, this.config.height);
