@@ -174,6 +174,7 @@ var CoverFlow = function(div, playlist, config) {
 	
 	function clickHandler(e) {
 		if (e.button === 0) {
+			e.stopImmediatePropagation();
 			e.preventDefault();
 
 			var hit = _this.hits[_.getChildIndex(e.target)];
@@ -276,15 +277,15 @@ CoverFlow.prototype.getCoverTransform = function(f, i) {
 };
 
 CoverFlow.prototype.update = function(currentX) {
-	this.setRectStyle((currentX + this.offsetX), this.offsetY);
-	this.setTrayStyle((currentX + this.offsetX), this.offsetY);
 
 	var f = this.getFocusedCoverOne(currentX);
 	if (f != this.prevF) {
 		this.focused(f);
 		this.prevF = f;
 	}
-	
+
+	this.setRectStyle((currentX + this.offsetX), this.offsetY);
+	this.setTrayStyle((currentX + this.offsetX), this.offsetY);
 	for (var i = 0; i < this.covers.length; i++) {
 		this.setHitStyle(this.hits[i], i, this.getCoverTransform(f, i));
 		this.setCoverStyle(this.covers[i], i, this.getCoverTransform(f, i));

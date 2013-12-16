@@ -30,6 +30,7 @@
 
 .coverflow .coverflow-tray,
 .coverflow .coverflow-cell {
+  pointer-events: none;
   position: absolute;
   -webkit-transition: -webkit-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   -moz-transition: -moz-transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
@@ -52,6 +53,7 @@
   backface-visibility: hidden; }
 
 .coverflow .coverflow-cell canvas {
+  pointer-events: none;
   outline: 1px solid transparent;
   position: absolute;
   opacity: 1;
