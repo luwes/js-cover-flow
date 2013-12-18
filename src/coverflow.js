@@ -4,9 +4,6 @@ var CoverFlow = function(div, playlist, config) {
 
 	this.config = config;
 	
-	var fadeOutComplete = new Signal();
-	var fadeInComplete = new Signal();
-	
 	var coversLength = playlist.length;
 	var completeLength = 0;
 	var maxCoverHeight = 0;
@@ -56,42 +53,10 @@ var CoverFlow = function(div, playlist, config) {
 		this.hits[i] = hit;
 	}
 
-	//cover holds the last cover added
-	if (cover) {
-		cover.el.firstChild.addEventListener('webkitTransitionEnd', coverTransitionEnd, false);
-		cover.el.firstChild.addEventListener('transitionend', coverTransitionEnd, false);
-	}
-
 	div.addEventListener('touchstart', controller, true);
 	div.addEventListener('keydown', keyboard, false);
 	this.rect.addEventListener('mousedown', clickHandler, false);
 
-
-	function coverTransitionEnd(e) {
-		e.stopPropagation();
-
-		if (parseInt(cover.el.firstChild.style.opacity, 10) === 0) {
-			_this.el.style.opacity = 0;
-			fadeOutComplete.trigger();
-		} else if (parseInt(cover.el.firstChild.style.opacity, 10) === 1) {
-			fadeInComplete.trigger();
-		}
-	}
-	
-	this.fadeOut = function(callback) {
-		fadeOutComplete.off().on(callback);
-		for (var i = 0; i < this.covers.length; i++) {
-			this.covers[i].el.firstChild.style.opacity = 0;
-		}
-	};
-	
-	this.fadeIn = function(callback) {
-		fadeInComplete.off().on(callback);
-		_this.el.style.opacity = 1;
-		for (var i = 0; i < this.covers.length; i++) {
-			this.covers[i].el.firstChild.style.opacity = 1;
-		}
-	};
 
 	this.itemComplete = function(h) {
 		maxCoverHeight = maxCoverHeight < h ? h : maxCoverHeight;

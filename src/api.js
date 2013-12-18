@@ -51,9 +51,7 @@ var Api = function(id) {
 			ready: new Signal(),
 			playlist: new Signal(),
 			focus: new Signal(),
-			click: new Signal(),
-			fadeIn: new Signal(),
-			fadeOut: new Signal()
+			click: new Signal()
 		};
 
 		this.config = _.extend(defaultConfig, options);
@@ -82,8 +80,6 @@ var Api = function(id) {
 		this.prev = player.prev;
 		this.next = player.next;
 		this.to = player.to;
-		this.fadeIn = player.fadeIn;
-		this.fadeOut = player.fadeOut;
 
 		return this;
 	};

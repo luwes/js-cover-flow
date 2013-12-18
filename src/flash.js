@@ -48,14 +48,6 @@ var Flash = function(api) {
 	this.to = function(index) {
 		swf.apiTo(index);
 	};
-	this.fadeIn = function(callback) {
-		api.events.fadeIn.off().on(callback);
-		swf.apiFadeIn();
-	};
-	this.fadeOut = function(callback) {
-		api.events.fadeOut.off().on(callback);
-		swf.apiFadeOut();
-	};
 	this.destroy = function() {
 	};
 

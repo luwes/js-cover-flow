@@ -63,9 +63,6 @@ var Html5 = function(api) {
 			div.addEventListener('mousedown', _this.stopRotation, false);
 		}
 
-		div.addEventListener('webkitTransitionEnd', divTransitionEnd, false);
-		div.addEventListener('transitionend', divTransitionEnd, false);
-
 		if (config.mousewheel) {
 			div.addEventListener('mousewheel', scrollOnMousewheel);
 			div.addEventListener('DOMMouseScroll', scrollOnMousewheel);
@@ -115,30 +112,6 @@ var Html5 = function(api) {
 		coverFlow.next();
 	}
 
-	function fadeInInternal() {
-		div.style.opacity = 1;
-	}
-
-	function fadeOutInternal() {
-		if (textField) textField.style.opacity = 0;
-		coverFlow.fadeOut(function() {
-			div.style.opacity = 0;
-		});
-	}
-
-	function divTransitionEnd(e) {
-		if (e.target === div) {
-			if (parseInt(div.style.opacity, 10) === 0) {
-				api.events.fadeOut.trigger();
-			} else {
-				if (textField) textField.style.opacity = 1;
-				coverFlow.fadeIn(function() {
-					api.events.fadeIn.trigger();
-				});
-			}
-		}
-	}
-
 	this.resize = function(wid, hei) {
 
 		if (coverFlow) {
@@ -164,14 +137,6 @@ var Html5 = function(api) {
 	};
 	this.to = function(index) {
 		coverFlow.to(index);
-	};
-	this.fadeIn = function(callback) {
-		api.events.fadeIn.off().on(callback);
-		fadeInInternal();
-	};
-	this.fadeOut = function(callback) {
-		api.events.fadeOut.off().on(callback);
-		fadeOutInternal();
 	};
 	this.destroy = function() {
 		if (coverFlow) coverFlow.destroy();
