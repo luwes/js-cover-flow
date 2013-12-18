@@ -64,7 +64,6 @@ var CoverFlow = function(div, playlist, config) {
 		maxCoverHeight = maxCoverHeight < h ? h : maxCoverHeight;
 		completeLength += 1;
 		if (completeLength == coversLength) {
-			_this.to(config.item);
 			for (var i = 0; i < coversLength; i++) {
 				var cover = this.covers[i];
 				cover.setY(maxCoverHeight);

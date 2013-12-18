@@ -53,6 +53,7 @@ var Html5 = function(api) {
 
 		coverFlow.on('focus', coverFocus);
 		coverFlow.on('click', coverClick);
+		coverFlow.to(config.item);
 
 		_this.resize(config.width, config.height);
 
