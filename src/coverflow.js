@@ -8,9 +8,11 @@ var CoverFlow = function(div, playlist, config) {
 	var completeLength = 0;
 	var maxCoverHeight = 0;
 	var current = 0;
-	
-	var focusCallbacks = [];
-	var clickCallbacks = [];
+
+	this.events = {
+		focus: new Signal(),
+		click: new Signal()
+	};
 
 	this.covers = [];
 	this.transforms = [];
@@ -103,25 +105,9 @@ var CoverFlow = function(div, playlist, config) {
 		current = index;
 		controller.to(index);
 	};
-	
-	this.focused = function(index) {
-		for (var i = 0; i < focusCallbacks.length; i++) {
-			focusCallbacks[i](index);
-		}
-	};
-	
-	this.clicked = function(index) {
-		for (var i = 0; i < clickCallbacks.length; i++) {
-			clickCallbacks[i](index);
-		}
-	};
-	
-	this.onFocus = function(c) {
-		focusCallbacks.push(c);
-	};
-	
-	this.onClick = function(c) {
-		clickCallbacks.push(c);
+
+	this.on = function(e, fn) {
+		this.events[e].on(fn);
 	};
 	
 	this.destroy = function() {
@@ -145,7 +131,7 @@ var CoverFlow = function(div, playlist, config) {
 
 			var hit = _this.hits[_.getChildIndex(e.target)];
 			if (hit.index == current) {
-				_this.clicked(hit.index);
+				_this.events.click.trigger(hit.index);
 			} else {
 				_this.to(hit.index);
 			}
@@ -174,7 +160,7 @@ var CoverFlow = function(div, playlist, config) {
 				_this.to(coversLength - 1);
 				break;
 			case 32:
-				_this.clicked(current);
+				_this.events.click.trigger(current);
 				break;
 			}
 		}
@@ -202,7 +188,7 @@ CoverFlow.prototype.tap = function(e, currentX) {
 		var current = this.getFocusedCover(currentX);
 		var hit = this.hits[_.getChildIndex(e.target)];
 		if (hit.index == current) {
-			this.clicked(hit.index);
+			this.events.click.trigger(hit.index);
 		} else {
 			this.to(hit.index);
 		}
@@ -246,7 +232,7 @@ CoverFlow.prototype.update = function(currentX) {
 
 	var f = this.getFocusedCoverOne(currentX);
 	if (f != this.prevF) {
-		this.focused(f);
+		this.events.focus.trigger(f);
 		this.prevF = f;
 	}
 

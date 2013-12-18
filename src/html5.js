@@ -51,8 +51,8 @@ var Html5 = function(api) {
 			div.appendChild(textField);
 		}
 
-		coverFlow.onFocus(coverFocus);
-		coverFlow.onClick(coverClick);
+		coverFlow.on('focus', coverFocus);
+		coverFlow.on('click', coverClick);
 
 		_this.resize(config.width, config.height);
 
