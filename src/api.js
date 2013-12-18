@@ -139,6 +139,7 @@ var Api = function(id) {
 
 	this.off = function(event, func) {
 		this.events[event].off(func);
+		return this;
 	};
 
 	this.trigger = function(event) {
