@@ -245,11 +245,11 @@ CoverFlow.prototype.tap = function(e, currentX) {
 };
 
 CoverFlow.prototype.setTrayStyle = function(x, y) {
-	this.tray.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+	this.tray.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, -' + this.config.coverdepth + 'px)';
 };
 
 CoverFlow.prototype.setRectStyle = function(x, y) {
-	this.rect.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+	this.rect.style[this.transformProp] = 'translate3d(' + x + 'px, ' + y + 'px, -' + this.config.coverdepth + 'px)';
 };
 
 CoverFlow.prototype.setHitStyle = function(hit, i, transform) {
@@ -269,11 +269,11 @@ CoverFlow.prototype.setCoverStyle = function(cover, i, transform) {
 CoverFlow.prototype.getCoverTransform = function(f, i) {
 	var x = i * this.config.covergap;
 	if (f == i) {
-		return 'translate3d(' + x + 'px, 0, 0)';
+		return 'translate3d(' + x + 'px, 0, ' + this.config.coverdepth + 'px)';
 	} else if (i > f) {
-		return 'translate3d(' + (x + this.space) + 'px, 0, ' + (-this.config.coverdepth) + 'px) ' + this._angle;
+		return 'translate3d(' + (x + this.space) + 'px, 0, 0) ' + this._angle;
 	} else {
-		return 'translate3d(' + (x - this.space) + 'px, 0, ' + (-this.config.coverdepth) + 'px) ' + this.angle;
+		return 'translate3d(' + (x - this.space) + 'px, 0, 0) ' + this.angle;
 	}
 };
 
