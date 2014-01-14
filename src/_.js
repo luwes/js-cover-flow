@@ -7,7 +7,8 @@ var _ = {
 		typeof navigator.plugins['Shockwave Flash'] == 'object') ||
 		(window.ActiveXObject && (new ActiveXObject('ShockwaveFlash.ShockwaveFlash')) !== false)),
 
-	isIE: navigator.userAgent.match(/msie/i) !== null,
+	isIE: !!navigator.userAgent.match(/msie/i) ||
+		!!navigator.userAgent.match(/Trident\/7\./),
 
 	uniqueId: function(prefix) {
 		var id = idCounter++;
