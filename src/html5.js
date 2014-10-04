@@ -37,6 +37,12 @@ var Html5 = function(api) {
 
 	function playlistLoaded(p) {
 		playlist = p;
+
+		if (config.rotatedelay > 0) {
+			//must be before coverFlow is created, event order
+			div.addEventListener('touchstart', _this.stopRotation, true);
+			div.addEventListener('mousedown', _this.stopRotation, true);
+		}
 		
 		config.coverheight = config.coverheight == 'auto' ? config.height : config.coverheight;
 		
@@ -60,8 +66,6 @@ var Html5 = function(api) {
 		if (config.rotatedelay > 0) {
 			if (rotateInterval) _this.stopRotation();
 			rotateInterval = setInterval(rotateHandler, config.rotatedelay);
-			div.addEventListener('touchstart', _this.stopRotation, false);
-			div.addEventListener('mousedown', _this.stopRotation, false);
 		}
 
 		if (config.mousewheel) {
@@ -72,6 +76,8 @@ var Html5 = function(api) {
 
 	function scrollOnMousewheel(e) {
 		e.preventDefault();
+
+		if (config.rotatedelay > 0 && rotateInterval) { _this.stopRotation(); }
 		
 		var delta = e.detail ? e.detail * (-120) : e.wheelDelta;
 		var count = Math.ceil(Math.abs(delta) / 120);
@@ -104,8 +110,8 @@ var Html5 = function(api) {
 	}
 
 	this.stopRotation = function() {
-		div.removeEventListener('touchstart', _this.stopRotation, false);
-		div.removeEventListener('mousedown', _this.stopRotation, false);
+		div.removeEventListener('touchstart', _this.stopRotation, true);
+		div.removeEventListener('mousedown', _this.stopRotation, true);
 		clearInterval(rotateInterval);
 	};
 		
