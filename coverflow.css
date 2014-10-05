@@ -2,7 +2,7 @@
   z-index: 10;
   position: relative;
   overflow: hidden;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: none;
   -ms-text-size-adjust: none;
   -webkit-touch-callout: none; }
@@ -58,3 +58,5 @@
 .coverflow-text h1,
 .coverflow-text h2 {
   margin: 0; }
+
+/*# sourceMappingURL=coverflow.css.map */
