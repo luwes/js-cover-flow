@@ -1,5 +1,5 @@
 # JS Cover Flow
-A Cover Flow component made for the web. More info: http://luwes.co/projects/js-cover-flow/
+A Cover Flow component made for the web. More info: https://wesleyluyten.com/projects/js-cover-flow
 
 [![JS Cover Flow](https://raw.github.com/luwes/js-cover-flow/master/preview.png)](http://luwes.co/labs/js-cover-flow/)
 
