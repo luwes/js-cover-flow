@@ -42,6 +42,7 @@ var Html5 = function(api) {
 			//must be before coverFlow is created, event order
 			div.addEventListener('touchstart', _this.stopRotation, true);
 			div.addEventListener('mousedown', _this.stopRotation, true);
+			div.addEventListener('keydown', _this.stopRotation, true);
 		}
 		
 		config.coverheight = config.coverheight == 'auto' ? config.height : config.coverheight;
@@ -64,7 +65,7 @@ var Html5 = function(api) {
 		_this.resize(config.width, config.height);
 
 		if (config.rotatedelay > 0) {
-			if (rotateInterval) _this.stopRotation();
+			_this.stopRotation();
 			rotateInterval = setInterval(rotateHandler, config.rotatedelay);
 		}
 
@@ -77,7 +78,7 @@ var Html5 = function(api) {
 	function scrollOnMousewheel(e) {
 		e.preventDefault();
 
-		if (config.rotatedelay > 0 && rotateInterval) { _this.stopRotation(); }
+		_this.stopRotation();
 		
 		var delta = e.detail ? e.detail * (-120) : e.wheelDelta;
 		var count = Math.ceil(Math.abs(delta) / 120);
@@ -96,7 +97,8 @@ var Html5 = function(api) {
 		if (config.showtext === true) {
 			var d = playlist[index];
 			if (d) {
-				textField.innerHTML = '<h1>' + (d.title === undefined ? '' : d.title) + '</h1><h2>' + (d.description === undefined ? '' : d.description) + '</h2>';
+				textField.innerHTML = '<h1>' + (d.title === undefined ? '' : d.title) + 
+				'</h1><h2>' + (d.description === undefined ? '' : d.description) + '</h2>';
 			}
 		}
 
@@ -104,15 +106,19 @@ var Html5 = function(api) {
 	}
 
 	function coverClick(index) {
-		if (config.rotatedelay > 0 && rotateInterval) { _this.stopRotation(); }
+		_this.stopRotation();
 		
 		api.trigger('click', index, playlist[index] ? playlist[index].link : undefined);
 	}
 
 	this.stopRotation = function() {
-		div.removeEventListener('touchstart', _this.stopRotation, true);
-		div.removeEventListener('mousedown', _this.stopRotation, true);
-		clearInterval(rotateInterval);
+		if (rotateInterval) {
+			div.removeEventListener('touchstart', _this.stopRotation, true);
+			div.removeEventListener('mousedown', _this.stopRotation, true);
+			div.removeEventListener('keydown', _this.stopRotation, true);
+			clearInterval(rotateInterval);
+			rotateInterval = false;
+		}
 	};
 		
 	function rotateHandler() {
@@ -131,18 +137,23 @@ var Html5 = function(api) {
 	};
 
 	this.left = function() {
+		_this.stopRotation();
 		coverFlow.left();
 	};
 	this.right = function() {
+		_this.stopRotation();
 		coverFlow.right();
 	};
 	this.prev = function() {
+		_this.stopRotation();
 		coverFlow.prev();
 	};
 	this.next = function() {
+		_this.stopRotation();
 		coverFlow.next();
 	};
 	this.to = function(index) {
+		_this.stopRotation();
 		coverFlow.to(index);
 	};
 	this.destroy = function() {
