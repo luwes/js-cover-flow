@@ -1,14 +1,24 @@
 
-var idCounter = 0;
+var nav = navigator, plugins = nav.plugins, ua = nav.userAgent, idCounter = 0;
 
 var _ = {
 
-	hasFlash: ((typeof navigator.plugins != 'undefined' &&
-		typeof navigator.plugins['Shockwave Flash'] == 'object') ||
-		(window.ActiveXObject && (new ActiveXObject('ShockwaveFlash.ShockwaveFlash')) !== false)),
+	hasFlash: (function (){
+		var a, hasFlash = false;
+		if(!!plugins && typeof plugins['Shockwave Flash'] == 'object') {
+			hasFlash = !hasFlash;
+		}else if ( !!window.ActiveXObject ) {
+			try {
+				a = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+				if(a){
+					hasFlash = !hasFlash;
+				}
+			}catch(e){}
+		}
+		return hasFlash;
+	})(),
 
-	isIE: !!navigator.userAgent.match(/msie/i) ||
-		!!navigator.userAgent.match(/Trident\/7\./),
+	isIE: !!ua.match(/msie/i) || !!ua.match(/Trident\/7\./),
 
 	uniqueId: function(prefix) {
 		var id = idCounter++;
